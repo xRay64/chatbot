@@ -34,7 +34,7 @@
                     <assembleDirectory>target</assembleDirectory>
                     <programs>
                         <program>
-                            <mainClass>Main</mainClass>
+                            <mainClass>com.sulakov.realtbot.Main</mainClass>
                             <name>realtbot</name>
                         </program>
                     </programs>
