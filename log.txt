@@ -9,3 +9,8 @@ Here is a smile emoji:😄
  Bot answer: SendMessage{chatId='292225453', text='smile:😄:smile
 Here is a smile emoji:😄
  Here is alien emoji: 👽', parseMode='null', disableWebPagePreview=null, replyToMessageId=null, replyMarkup=null}
+ [INFO]24.06.2017 16:26:59 Message from Anton Sulakov username = null. (user_id = 292225453) in chat_id = 292225453
+ Text: Test
+ Bot answer: SendMessage{chatId='292225453', text='Test
+Here is a smile emoji:😄
+ Here is alien emoji: 👽', parseMode='null', disableWebPagePreview=null, replyToMessageId=null, replyMarkup=null}

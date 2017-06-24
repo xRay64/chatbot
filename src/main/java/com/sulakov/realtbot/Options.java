@@ -1,4 +1,4 @@
-package bot;
+package com.sulakov.realtbot;
 
 /**
  * Created by Антон on 09.06.2017.

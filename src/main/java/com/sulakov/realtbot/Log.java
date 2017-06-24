@@ -1,4 +1,4 @@
-package bot;
+package com.sulakov.realtbot;
 
 import org.telegram.telegrambots.api.objects.Update;
 

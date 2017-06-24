@@ -1,4 +1,4 @@
-package bot;
+package com.sulakov.realtbot;
 
 import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
