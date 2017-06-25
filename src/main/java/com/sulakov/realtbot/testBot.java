@@ -1,6 +1,5 @@
 package com.sulakov.realtbot;
 
-import com.sulakov.realtbot.dbcon.GetBotParam;
 import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -13,8 +12,6 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import java.net.URISyntaxException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,14 +102,14 @@ public class testBot extends TelegramLongPollingBot {
                 messageToSend = new EditMessageText()
                         .setText("Какой райн?")
                         .setChatId(chatId)
-                        .setMessageId(Math.toIntExact(message_id))
+                        .setMessageId((int)message_id)
                         .setReplyMarkup(InlKbrd.get("Старый город", "жг", "Серединка", "серединка",
                                 "Новые районы", "новые"));
             } else if (call_data.equals("жг") || call_data.equals("серединка") || call_data.equals("новые")) {
                 messageToSend = new EditMessageText()
                         .setText("Сколько комнат?")
                         .setChatId(chatId)
-                        .setMessageId(Math.toIntExact(message_id))
+                        .setMessageId((int)message_id)
                         .setReplyMarkup(InlKbrd.get(":one:", "1", ":two:", "2", ":three:", "3", ":four:", "4"));
             } else if (call_data.equals("1") || call_data.equals("2") || call_data.equals("3") || call_data.equals("4")) {
                 messageToSend = new SendMessage()
@@ -127,35 +124,11 @@ public class testBot extends TelegramLongPollingBot {
     }
 
     public String getBotUsername() {
-        String toReturn = null;
-
-        try {
-            toReturn =  GetBotParam.getParam("botName");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return toReturn;
+        return Main.botName;
     }
 
     public String getBotToken() {
-        String toReturn = null;
-
-        try {
-            toReturn =  GetBotParam.getParam("botToken");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return toReturn;
+        return Main.botToken;
     }
 
     private void botSend(Object messageToSend) {
