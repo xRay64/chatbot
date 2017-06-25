@@ -102,14 +102,14 @@ public class testBot extends TelegramLongPollingBot {
                 messageToSend = new EditMessageText()
                         .setText("Какой райн?")
                         .setChatId(chatId)
-                        .setMessageId(Math.toIntExact(message_id))
+                        .setMessageId((int)message_id)
                         .setReplyMarkup(InlKbrd.get("Старый город", "жг", "Серединка", "серединка",
                                 "Новые районы", "новые"));
             } else if (call_data.equals("жг") || call_data.equals("серединка") || call_data.equals("новые")) {
                 messageToSend = new EditMessageText()
                         .setText("Сколько комнат?")
                         .setChatId(chatId)
-                        .setMessageId(Math.toIntExact(message_id))
+                        .setMessageId((int)message_id)
                         .setReplyMarkup(InlKbrd.get(":one:", "1", ":two:", "2", ":three:", "3", ":four:", "4"));
             } else if (call_data.equals("1") || call_data.equals("2") || call_data.equals("3") || call_data.equals("4")) {
                 messageToSend = new SendMessage()
@@ -124,11 +124,11 @@ public class testBot extends TelegramLongPollingBot {
     }
 
     public String getBotUsername() {
-        return Options.getBotName();
+        return Main.botName;
     }
 
     public String getBotToken() {
-        return Options.getBotToken();
+        return Main.botToken;
     }
 
     private void botSend(Object messageToSend) {
