@@ -13,9 +13,9 @@ public class Main {
 
         try {
             botsApi.registerBot(new testBot());
+            System.out.println("Telegram bot successfully started!");
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-        System.out.println("Telegram bot successfully started!");
     }
 }

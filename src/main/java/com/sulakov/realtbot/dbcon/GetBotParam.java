@@ -17,11 +17,12 @@ public class GetBotParam {
         Connection connection = BotDBConnection.getConnection();
         System.out.println("Соединение установлено");
         String res;
-        Statement statement = null;
+        Statement statement;
         statement = connection.createStatement();
 
         ResultSet resultSet = statement.executeQuery("SELECT value FROM settings WHERE name like '" + param +"';");
 
+        resultSet.next();
         res = resultSet.getString("value");
         return res;
     }

@@ -9,8 +9,8 @@ import java.sql.SQLException;
 /**
  * Created by anton on 24.06.17.
  */
-public abstract class BotDBConnection implements Connection {
-    public static Connection getConnection() throws URISyntaxException, SQLException {
+abstract class BotDBConnection implements Connection {
+    static Connection getConnection() throws URISyntaxException, SQLException {
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
         String username = dbUri.getUserInfo().split(":")[0];
