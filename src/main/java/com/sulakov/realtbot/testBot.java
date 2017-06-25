@@ -1,5 +1,6 @@
 package com.sulakov.realtbot;
 
+import com.sulakov.realtbot.dbcon.GetBotParam;
 import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -12,6 +13,8 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,11 +127,35 @@ public class testBot extends TelegramLongPollingBot {
     }
 
     public String getBotUsername() {
-        return Options.getBotName();
+        String toReturn = null;
+
+        try {
+            toReturn =  GetBotParam.getParam("botName");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return toReturn;
     }
 
     public String getBotToken() {
-        return Options.getBotToken();
+        String toReturn = null;
+
+        try {
+            toReturn =  GetBotParam.getParam("botToken");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return toReturn;
     }
 
     private void botSend(Object messageToSend) {
