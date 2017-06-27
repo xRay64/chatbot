@@ -14,6 +14,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Антон Сулаков on 08.06.2017.
@@ -28,7 +29,7 @@ public class testBot extends TelegramLongPollingBot {
         // We check if the update has a message and the message has text
         if (update.hasMessage()) {
 
-            Log.logWrite(update); //пишем полученный апдейт в лог
+//            Log.logWrite(update); //пишем полученный апдейт в лог
             messageToSend = null;
             chatId = update.getMessage().getChatId();
             messageText = update.getMessage().getText();
@@ -36,11 +37,9 @@ public class testBot extends TelegramLongPollingBot {
             if (update.getMessage().hasText()) {
 
                 if (messageText.toUpperCase().contains("ПРИВЕТ")) {
-                    messageToSend = new SendMessage()
-                            .setChatId(chatId)
-                            .setText("Привет, " + update.getMessage().getChat().getFirstName()
-                                    + " "
-                                    + update.getMessage().getChat().getLastName());
+                    messageToSend = new SendMessage(chatId,"Привет, " + update.getMessage().getChat().getFirstName()
+                            + " "
+                            + update.getMessage().getChat().getLastName() );
                 } else if (messageText.equals("/pic")) {
                     messageToSend = new SendPhoto()
                             .setChatId(chatId)
@@ -74,7 +73,7 @@ public class testBot extends TelegramLongPollingBot {
 
                 } else if (messageText.equals("/start")) {
                     messageToSend = new SendMessage()
-                            .setReplyMarkup(InlKbrd.get("Квартиру :door:", "flat", "Дом :house:", "house"))
+                            .setReplyMarkup(InlineKeyboard.get("Квартиру :door:", "flat", "Дом :house:", "house"))
                             .setChatId(chatId)
                             .setText("Добавить объект в базу");
                 } else {
@@ -103,14 +102,14 @@ public class testBot extends TelegramLongPollingBot {
                         .setText("Какой райн?")
                         .setChatId(chatId)
                         .setMessageId((int)message_id)
-                        .setReplyMarkup(InlKbrd.get("Старый город", "жг", "Серединка", "серединка",
+                        .setReplyMarkup(InlineKeyboard.get("Старый город", "жг", "Серединка", "серединка",
                                 "Новые районы", "новые"));
             } else if (call_data.equals("жг") || call_data.equals("серединка") || call_data.equals("новые")) {
                 messageToSend = new EditMessageText()
                         .setText("Сколько комнат?")
                         .setChatId(chatId)
                         .setMessageId((int)message_id)
-                        .setReplyMarkup(InlKbrd.get(":one:", "1", ":two:", "2", ":three:", "3", ":four:", "4"));
+                        .setReplyMarkup(InlineKeyboard.get(":one:", "1", ":two:", "2", ":three:", "3", ":four:", "4"));
             } else if (call_data.equals("1") || call_data.equals("2") || call_data.equals("3") || call_data.equals("4")) {
                 messageToSend = new SendMessage()
                         .setChatId(chatId)
@@ -133,16 +132,16 @@ public class testBot extends TelegramLongPollingBot {
 
     private void botSend(Object messageToSend) {
         try {
-            if (messageToSend.getClass().equals(new SendMessage().getClass())) {
+            if (Objects.equals(messageToSend.getClass(), new SendMessage().getClass())) {
                 System.out.println(messageToSend.getClass());
                 System.out.println("In msg: " + messageText + " Out msg: " + messageToSend + "\n\n");
                 sendMessage((SendMessage) messageToSend); // Call method to botSend the message
                 Log.logAnswerWrite(messageToSend.toString());
-            } else if (messageToSend.getClass().equals(new SendPhoto().getClass())) {
+            } else if (Objects.equals(messageToSend.getClass(), new SendPhoto().getClass())) {
                 System.out.println("In msg: " + messageText + " Out msg: " + messageToSend + "\n\n");
                 sendPhoto((SendPhoto) messageToSend);
                 Log.logAnswerWrite(messageToSend.toString());
-            } else if (messageToSend.getClass().equals(new EditMessageText().getClass())) {
+            } else if (Objects.equals(messageToSend.getClass(), new EditMessageText().getClass())) {
                 System.out.println("In msg: " + messageText + " Out msg: " + messageToSend + "\n\n");
                 editMessageText((EditMessageText) messageToSend);
                 Log.logAnswerWrite(messageToSend.toString());
