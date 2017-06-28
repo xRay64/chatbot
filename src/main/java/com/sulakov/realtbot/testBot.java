@@ -44,7 +44,8 @@ public class testBot extends TelegramLongPollingBot {
                     messageToSend = new SendPhoto()
                             .setChatId(chatId)
                             .setPhoto("AgADAgADQ6gxG69H8Em8ZJNzmozVEHc6tw0ABN0Dz_Qupv3yrFwEAAEC") //AgADAgADQ6gxG69H8Em8ZJNzmozVEHc6tw0ABN0Dz_Qupv3yrFwEAAEC
-                            .setCaption("Bite my shiny metal ass");
+                            .setCaption("Bite my shiny metal ass")
+                            .setReplyToMessageId(update.getMessage().getMessageId());
                 } else if (messageText.equals("/markup")) {
                     //Creating custom keyboard
                     ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
@@ -130,21 +131,23 @@ public class testBot extends TelegramLongPollingBot {
         return Main.botToken;
     }
 
+
+    //отправка сообщений
     private void botSend(Object messageToSend) {
         try {
             if (Objects.equals(messageToSend.getClass(), new SendMessage().getClass())) {
                 System.out.println(messageToSend.getClass());
                 System.out.println("In msg: " + messageText + " Out msg: " + messageToSend + "\n\n");
                 sendMessage((SendMessage) messageToSend); // Call method to botSend the message
-                Log.logAnswerWrite(messageToSend.toString());
+//                Log.logAnswerWrite(messageToSend.toString());
             } else if (Objects.equals(messageToSend.getClass(), new SendPhoto().getClass())) {
                 System.out.println("In msg: " + messageText + " Out msg: " + messageToSend + "\n\n");
                 sendPhoto((SendPhoto) messageToSend);
-                Log.logAnswerWrite(messageToSend.toString());
+//                Log.logAnswerWrite(messageToSend.toString());
             } else if (Objects.equals(messageToSend.getClass(), new EditMessageText().getClass())) {
                 System.out.println("In msg: " + messageText + " Out msg: " + messageToSend + "\n\n");
                 editMessageText((EditMessageText) messageToSend);
-                Log.logAnswerWrite(messageToSend.toString());
+//                Log.logAnswerWrite(messageToSend.toString());
             }
         } catch (TelegramApiException e) {
             e.printStackTrace();
