@@ -31,12 +31,6 @@ public class Log {
             fileWriter = new FileWriter(fileName, true);
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 

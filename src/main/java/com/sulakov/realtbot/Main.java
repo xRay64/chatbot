@@ -13,16 +13,9 @@ public class Main {
     static String botToken = null;
 
     public static void main(String[] args) {
-        try {
-            botName = GetBotParam.getParam("botName");
-            botToken =  GetBotParam.getParam("botToken");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        //получаем botNme и botToken из БД и храним их в переменных
+        botName = GetBotParam.getParam("botName");
+        botToken =  GetBotParam.getParam("botToken");
 
         ApiContextInitializer.init();
 

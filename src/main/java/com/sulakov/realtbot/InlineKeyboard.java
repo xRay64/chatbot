@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Антон on 13.06.2017.
  */
-class InlKbrd {
+class InlineKeyboard {
     private static InlineKeyboardMarkup markupInline;
     private static List<List<InlineKeyboardButton>> rowsInline;
     private static List<InlineKeyboardButton> rowInline;
@@ -24,6 +24,7 @@ class InlKbrd {
         rowInline.add(new InlineKeyboardButton().setText(EmojiParser.parseToUnicode(button2)).setCallbackData(data2));
         rowsInline.add(rowInline);
         markupInline.setKeyboard(rowsInline);
+
 
         return markupInline;
     }
