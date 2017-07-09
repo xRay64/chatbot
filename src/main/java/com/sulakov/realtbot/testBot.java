@@ -12,9 +12,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Created by Антон Сулаков on 08.06.2017.
@@ -27,6 +25,8 @@ public class testBot extends TelegramLongPollingBot {
 
     public void onUpdateReceived(Update update) {
         // We check if the update has a message and the message has text
+        Map<Long, String> settingsMap = new TreeMap<Long, String>();
+
         if (update.hasMessage()) {
 
 //            Log.logWrite(update); //пишем полученный апдейт в лог
@@ -46,14 +46,14 @@ public class testBot extends TelegramLongPollingBot {
                             .setPhoto("AgADAgADQ6gxG69H8Em8ZJNzmozVEHc6tw0ABN0Dz_Qupv3yrFwEAAEC") //AgADAgADQ6gxG69H8Em8ZJNzmozVEHc6tw0ABN0Dz_Qupv3yrFwEAAEC
                             .setCaption("Bite my shiny metal ass")
                             .setReplyToMessageId(update.getMessage().getMessageId());
-                } else if (messageText.equals("/markup")) {
+                } else if (messageText.equals("/start")) {
                     //Creating custom keyboard
                     ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
                     List<KeyboardRow> keyboard = new ArrayList<KeyboardRow>();
                     KeyboardRow row = new KeyboardRow();
                     //adding first row
                     row.add("/pic");
-                    row.add("Row 1 Button 2");
+                    row.add("/добавить_объект");
                     row.add("Row 1 Button 3");
                     keyboard.add(row);
                     //adding second row
@@ -72,9 +72,11 @@ public class testBot extends TelegramLongPollingBot {
                             .setText("Клавиатура добавлена")
                             .setReplyMarkup(keyboardMarkup);
 
-                } else if (messageText.equals("/start")) {
+                } else if (messageText.equals("/добавить_объект")) {
                     messageToSend = new SendMessage()
-                            .setReplyMarkup(InlineKeyboard.get("Квартиру :door:", "flat", "Дом :house:", "house"))
+                            .setReplyMarkup(InlineKeyboard.get("Квартиру :door:", "flat", "Дом :house:", "house", "Комната :room:", "room",
+                                                               "Новостройка :new:", "new_build", "Земельный участок :area:", "area", "Гараж :garage:", "garage",
+                                                                "Дача :cottage:", "cottage", "Комерческая недвижимость :commerce:", "commerce"))
                             .setChatId(chatId)
                             .setText("Добавить объект в базу");
                 } else {
