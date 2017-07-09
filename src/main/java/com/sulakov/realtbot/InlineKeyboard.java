@@ -114,6 +114,7 @@ class InlineKeyboard {
         rowsInline.add(rowInline);
         rowInline = new ArrayList<>();
         rowInline.add(new InlineKeyboardButton().setText(EmojiParser.parseToUnicode(button7)).setCallbackData(data7));
+        rowsInline.add(rowInline);
         markupInline.setKeyboard(rowsInline);
 
         return markupInline;
@@ -137,6 +138,7 @@ class InlineKeyboard {
         rowInline = new ArrayList<>();
         rowInline.add(new InlineKeyboardButton().setText(EmojiParser.parseToUnicode(button7)).setCallbackData(data7));
         rowInline.add(new InlineKeyboardButton().setText(EmojiParser.parseToUnicode(button8)).setCallbackData(data8));
+        rowsInline.add(rowInline);
         markupInline.setKeyboard(rowsInline);
 
         return markupInline;
