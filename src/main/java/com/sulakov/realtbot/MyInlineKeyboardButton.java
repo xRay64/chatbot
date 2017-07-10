@@ -7,7 +7,6 @@ import com.vdurmont.emoji.EmojiParser;
  */
 public class MyInlineKeyboardButton extends org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton {
     private String name;
-    private String data;
 
     public MyInlineKeyboardButton(String name, String data) {
         this.name = name;

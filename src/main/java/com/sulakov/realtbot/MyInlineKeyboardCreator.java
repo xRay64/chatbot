@@ -22,7 +22,7 @@ class MyInlineKeyboardCreator {
         rowsInline = new ArrayList<>();
         rowInline = new ArrayList<>();
         int rowLength = 0;
-        for (int i = 0; i < buttonsMap.size() + 1; i++) {
+        for (int i = 0; i < buttonsMap.size(); i++) {
             rowLength += buttonsMap.get(i).getNameSize();
             if (rowLength <= 20) {
                 rowInline.add(buttonsMap.get(i));
@@ -32,6 +32,7 @@ class MyInlineKeyboardCreator {
                 rowInline = new ArrayList<>();
                 rowInline.add(buttonsMap.get(i));
             }
+            rowsInline.add(rowInline);
         }
         markupInline.setKeyboard(rowsInline);
         return markupInline;
