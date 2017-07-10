@@ -73,10 +73,23 @@ public class testBot extends TelegramLongPollingBot {
                             .setReplyMarkup(keyboardMarkup);
 
                 } else if (messageText.equals("/добавить_объект")) {
+                    //заполняем HashMap кнопками
+                    HashMap<Integer, MyInlineKeyboardButton> buttonsMap = new HashMap<Integer, MyInlineKeyboardButton>();
+                    buttonsMap.put(0, new MyInlineKeyboardButton("Квартиру :door:", "flat"));
+                    buttonsMap.put(1, new MyInlineKeyboardButton("Дом :house:", "house"));
+                    buttonsMap.put(2, new MyInlineKeyboardButton("Комната :bedroom:", "room"));
+                    buttonsMap.put(3, new MyInlineKeyboardButton("Новостройка :new:", "new_build"));
+                    buttonsMap.put(4, new MyInlineKeyboardButton("Земельный участок :area:", "area"));
+                    buttonsMap.put(5, new MyInlineKeyboardButton("Гараж :garage:", "garage"));
+                    buttonsMap.put(6, new MyInlineKeyboardButton( "Дача :cottage:", "cottage"));
+                    buttonsMap.put(7, new MyInlineKeyboardButton( "Комерческая недвижимость :commerce:", "commerce"));
+
+                    //закончили заполнять HashMap кнопками
                     messageToSend = new SendMessage()
-                            .setReplyMarkup(InlineKeyboard.get("Квартиру :door:", "flat", "Дом :house:", "house", "Комната :room:", "room",
-                                                               "Новостройка :new:", "new_build", "Земельный участок :area:", "area", "Гараж :garage:", "garage",
-                                                                "Дача :cottage:", "cottage", "Комерческая недвижимость :commerce:", "commerce"))
+                            .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(buttonsMap))
+//                            .setReplyMarkup(MyInlineKeyboardCreator.get("Квартиру :door:", "flat", "Дом :house:", "house", "Комната :bedroom:", "room",
+//                                                               "Новостройка :new:", "new_build", "Земельный участок :area:", "area", "Гараж :garage:", "garage",
+//                                                                "Дача :cottage:", "cottage", "Комерческая недвижимость :commerce:", "commerce"))
                             .setChatId(chatId)
                             .setText("Добавить объект в базу");
                 } else {
@@ -105,14 +118,14 @@ public class testBot extends TelegramLongPollingBot {
                         .setText("Какой райн?")
                         .setChatId(chatId)
                         .setMessageId((int)message_id)
-                        .setReplyMarkup(InlineKeyboard.get("Старый город", "жг", "Серединка", "серединка",
+                        .setReplyMarkup(MyInlineKeyboardCreator.get("Старый город", "жг", "Серединка", "серединка",
                                 "Новые районы", "новые"));
             } else if (call_data.equals("жг") || call_data.equals("серединка") || call_data.equals("новые")) {
                 messageToSend = new EditMessageText()
                         .setText("Сколько комнат?")
                         .setChatId(chatId)
                         .setMessageId((int)message_id)
-                        .setReplyMarkup(InlineKeyboard.get(":one:", "1", ":two:", "2", ":three:", "3", ":four:", "4"));
+                        .setReplyMarkup(MyInlineKeyboardCreator.get(":one:", "1", ":two:", "2", ":three:", "3", ":four:", "4"));
             } else if (call_data.equals("1") || call_data.equals("2") || call_data.equals("3") || call_data.equals("4")) {
                 messageToSend = new SendMessage()
                         .setChatId(chatId)

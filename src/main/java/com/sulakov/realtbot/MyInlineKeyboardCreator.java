@@ -5,15 +5,37 @@ import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by Антон on 13.06.2017.
  */
-class InlineKeyboard {
+class MyInlineKeyboardCreator {
     private static InlineKeyboardMarkup markupInline;
     private static List<List<InlineKeyboardButton>> rowsInline;
     private static List<InlineKeyboardButton> rowInline;
+
+
+    public static InlineKeyboardMarkup getInlineKeyboardMarkup(HashMap<Integer, MyInlineKeyboardButton> buttonsMap) {
+        markupInline = new InlineKeyboardMarkup();
+        rowsInline = new ArrayList<>();
+        rowInline = new ArrayList<>();
+        int rowLenght = 0;
+        for (int i = 0; i < buttonsMap.size(); i++) {
+            rowLenght += buttonsMap.get(i).getNameSize();
+            if (rowLenght <= 20) {
+                rowInline.add(buttonsMap.get(i));
+            } else {
+                rowsInline.add(rowInline);
+                rowLenght = 0;
+                rowInline = new ArrayList<>();
+                rowInline.add(buttonsMap.get(i));
+            }
+        }
+        markupInline.setKeyboard(rowsInline);
+        return markupInline;
+    }
 
     public static InlineKeyboardMarkup get(String button1, String data1, String button2, String data2 ) {
         markupInline = new InlineKeyboardMarkup();
