@@ -1,5 +1,7 @@
 package com.sulakov.realtbot;
 
+import com.vdurmont.emoji.EmojiParser;
+
 /**
  * Created by Антон on 10.07.2017.
  */
@@ -9,7 +11,7 @@ public class MyInlineKeyboardButton extends org.telegram.telegrambots.api.object
 
     public MyInlineKeyboardButton(String name, String data) {
         this.name = name;
-        super.setText(name).setCallbackData(data);
+        super.setText(EmojiParser.parseToUnicode(name)).setCallbackData(data);
     }
 
     public int getNameSize() {

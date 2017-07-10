@@ -21,14 +21,14 @@ class MyInlineKeyboardCreator {
         markupInline = new InlineKeyboardMarkup();
         rowsInline = new ArrayList<>();
         rowInline = new ArrayList<>();
-        int rowLenght = 0;
-        for (int i = 0; i < buttonsMap.size(); i++) {
-            rowLenght += buttonsMap.get(i).getNameSize();
-            if (rowLenght <= 20) {
+        int rowLength = 0;
+        for (int i = 0; i < buttonsMap.size() + 1; i++) {
+            rowLength += buttonsMap.get(i).getNameSize();
+            if (rowLength <= 20) {
                 rowInline.add(buttonsMap.get(i));
             } else {
                 rowsInline.add(rowInline);
-                rowLenght = 0;
+                rowLength = buttonsMap.get(i).getNameSize();
                 rowInline = new ArrayList<>();
                 rowInline.add(buttonsMap.get(i));
             }
