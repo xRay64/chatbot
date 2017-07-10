@@ -32,8 +32,8 @@ class MyInlineKeyboardCreator {
                 rowInline = new ArrayList<>();
                 rowInline.add(buttonsMap.get(i));
             }
-            rowsInline.add(rowInline);
         }
+        rowsInline.add(rowInline);
         markupInline.setKeyboard(rowsInline);
         return markupInline;
     }
