@@ -22,10 +22,13 @@ public class testBot extends TelegramLongPollingBot {
     private long chatId; //пишем ChatId в переменную
     private String messageText; //пишем текст сообщения в переменную
     private long message_id;
+    private long user_Id;
+    Map<Long, String> settingsMap = new HashMap<Long, String>();
+    Map<Long, MyRealtObject> objectMap = new HashMap<Long, MyRealtObject>();
 
     public void onUpdateReceived(Update update) {
         // We check if the update has a message and the message has text
-        Map<Long, String> settingsMap = new TreeMap<Long, String>();
+
 
         if (update.hasMessage()) {
 
@@ -33,6 +36,8 @@ public class testBot extends TelegramLongPollingBot {
             messageToSend = null;
             chatId = update.getMessage().getChatId();
             messageText = update.getMessage().getText();
+            user_Id = update.getMessage().getChat().getId();
+
 
             if (update.getMessage().hasText()) {
 
@@ -79,10 +84,10 @@ public class testBot extends TelegramLongPollingBot {
                     buttonsMap.put(1, new MyInlineKeyboardButton("Дом :house:", "house"));
                     buttonsMap.put(2, new MyInlineKeyboardButton("Комната :bedroom:", "room"));
                     buttonsMap.put(3, new MyInlineKeyboardButton("Новостройка :new:", "new_build"));
-                    buttonsMap.put(4, new MyInlineKeyboardButton("Земельный участок :area:", "area"));
-                    buttonsMap.put(5, new MyInlineKeyboardButton("Гараж :garage:", "garage"));
-                    buttonsMap.put(6, new MyInlineKeyboardButton( "Дача :cottage:", "cottage"));
-                    buttonsMap.put(7, new MyInlineKeyboardButton( "Комерческая недвижимость :commerce:", "commerce"));
+                    buttonsMap.put(4, new MyInlineKeyboardButton("Земельный участок :mount_fuji:", "area"));
+                    buttonsMap.put(5, new MyInlineKeyboardButton("Гараж :car:", "garage"));
+                    buttonsMap.put(6, new MyInlineKeyboardButton( "Дача :house_with_garden:", "cottage"));
+                    buttonsMap.put(7, new MyInlineKeyboardButton( "Комерческая недвижимость :office:", "commerce"));
 
                     //закончили заполнять HashMap кнопками
                     messageToSend = new SendMessage()
@@ -152,15 +157,15 @@ public class testBot extends TelegramLongPollingBot {
         try {
             if (Objects.equals(messageToSend.getClass(), new SendMessage().getClass())) {
                 System.out.println(messageToSend.getClass());
-                System.out.println("In msg: " + messageText + " Out msg: " + messageToSend + "\n\n");
+                System.out.println("In msg: " + messageText + " ,UserID:" + user_Id + " Out msg: " + messageToSend + "\n\n");
                 sendMessage((SendMessage) messageToSend); // Call method to botSend the message
 //                Log.logAnswerWrite(messageToSend.toString());
             } else if (Objects.equals(messageToSend.getClass(), new SendPhoto().getClass())) {
-                System.out.println("In msg: " + messageText + " Out msg: " + messageToSend + "\n\n");
+                System.out.println("In msg: " + messageText + " ,UserID:" + user_Id + " Out msg: " + messageToSend + "\n\n");
                 sendPhoto((SendPhoto) messageToSend);
 //                Log.logAnswerWrite(messageToSend.toString());
             } else if (Objects.equals(messageToSend.getClass(), new EditMessageText().getClass())) {
-                System.out.println("In msg: " + messageText + " Out msg: " + messageToSend + "\n\n");
+                System.out.println("In msg: " + messageText + " ,UserID:" + user_Id +  " Out msg: " + messageToSend + "\n\n");
                 editMessageText((EditMessageText) messageToSend);
 //                Log.logAnswerWrite(messageToSend.toString());
             }
