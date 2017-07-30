@@ -182,9 +182,9 @@ public class MyRealtObject {
 
     @Override
     public String toString() {
-        String toReturn = null;
+        String toReturn = "";
         if (type != 0) {
-            String typeToString;
+            String typeToString = "";
             if (type == 1) {
                 typeToString = "Квартира";
             } else if (type == 2) {
@@ -204,7 +204,7 @@ public class MyRealtObject {
             } else {
                 System.out.println("ERROR: В методе toString объекта MyRealtObject. Не верный тип объекта.");
             }
-            toReturn += "Тип: " + type + "\n";
+            toReturn += "Тип: " + typeToString + "\n";
         }
         if (mikroraion != null) {
             toReturn += "Микрорайон: " + mikroraion + "\n";
