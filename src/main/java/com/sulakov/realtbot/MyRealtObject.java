@@ -7,6 +7,14 @@ import java.util.Date;
  */
 public class MyRealtObject {
 
+    private int type;            //1 - квартира
+    //2 - дом
+    //3 - комната
+    //4 - новостройка
+    //5 - земельные участок
+    //6 - гараж
+    //7 - дача
+    //8 - комерческая недвижимость
     private String mikroraion;   //1. Микрорайон
     private String street;       //2. Улица
     private int houseNumber;     //3. Номер дома
@@ -25,6 +33,15 @@ public class MyRealtObject {
     private Date depositDateFrom;//16. дата взятия задатка
     private Date depositDateTo;  //17. срок окончания задатка
     //16. Ну и фотографии
+
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getType() {
+        return type;
+    }
 
     public void setMikroraion(String mikroraion) {
 
@@ -161,5 +178,85 @@ public class MyRealtObject {
 
     public Date getDepositDateTo() {
         return depositDateTo;
+    }
+
+    @Override
+    public String toString() {
+        String toReturn = null;
+        if (type != 0) {
+            String typeToString;
+            if (type == 1) {
+                typeToString = "Квартира";
+            } else if (type == 2) {
+                typeToString = "Дом";
+            } else if (type == 3) {
+                typeToString = "Комната";
+            } else if (type == 4) {
+                typeToString = "Новостройка";
+            } else if (type == 5) {
+                typeToString = "Земельный участок";
+            } else if (type == 6) {
+                typeToString = "Гараж";
+            } else if (type == 7) {
+                typeToString = "Дача";
+            } else if (type == 8) {
+                typeToString = "Комерческая недвижимость";
+            } else {
+                System.out.println("ERROR: В методе toString объекта MyRealtObject. Не верный тип объекта.");
+            }
+            toReturn += "Тип: " + type + "\n";
+        }
+        if (mikroraion != null) {
+            toReturn += "Микрорайон: " + mikroraion + "\n";
+        }
+        if (street != null) {
+            toReturn += "Улица: " + street + "\n";
+        }
+        if (houseNumber != 0) {
+            toReturn += "Номер дома: " + houseNumber + "\n";
+        }
+        if (aptNumber != 0) {
+            toReturn += "Номер квартиры: " + aptNumber + "\n";
+        }
+        if (rooms != 0) {
+            toReturn += "Количество комнат: " + rooms + "\n";
+        }
+        if (floor != 0) {
+            toReturn += "Этаж: " + floor + "\n";
+        }
+        if (floorInHouse != 0) {
+            toReturn += "Этажей в здании: " + floorInHouse + "\n";
+        }
+        if (totalArea != 0) {
+            toReturn += "Общая площадь: " + totalArea + "\n";
+        }
+        if (bath != null) {
+            toReturn += "Сан.узел: " + bath + "\n";
+        }
+        if (houseType != null) {
+            toReturn += "Тип дома: " + houseType + "\n";
+        }
+        if (balcony != null) {
+            toReturn += "Балкон: " + balcony + "\n";
+        }
+        if (price != 0) {
+            toReturn += "Цена: " + price + "\n";
+        }
+        if (phone != 0) {
+            toReturn += "Телефон собственника: " + phone + "\n";
+        }
+        if (ownerName != null) {
+            toReturn += "Имя собственника: " + ownerName + "\n";
+        }
+        if (deposit != 0) {
+            toReturn += "Данные о задатке: " + deposit + "\n";
+        }
+        if (depositDateFrom != null) {
+            toReturn += "Дата взятия задатка: " + depositDateFrom + "\n";
+        }
+        if (depositDateTo != null) {
+            toReturn += "Дата окончания задатка: " + depositDateTo + "\n";
+        }
+        return super.toString();
     }
 }

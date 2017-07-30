@@ -92,9 +92,6 @@ public class testBot extends TelegramLongPollingBot {
                     //закончили заполнять HashMap кнопками
                     messageToSend = new SendMessage()
                             .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(buttonsMap))
-//                            .setReplyMarkup(MyInlineKeyboardCreator.get("Квартиру :door:", "flat", "Дом :house:", "house", "Комната :bedroom:", "room",
-//                                                               "Новостройка :new:", "new_build", "Земельный участок :area:", "area", "Гараж :garage:", "garage",
-//                                                                "Дача :cottage:", "cottage", "Комерческая недвижимость :commerce:", "commerce"))
                             .setChatId(chatId)
                             .setText("Добавить объект в базу");
                 } else {
@@ -120,8 +117,28 @@ public class testBot extends TelegramLongPollingBot {
 
             if (call_data.equals("flat") || call_data.equals("house") || call_data.equals("room") || call_data.equals("new_build") || call_data.equals("area") || call_data.equals("garage")
                     || call_data.equals("cottage") || call_data.equals("commerce")) {
-                objectMap.put(chatId, new MyRealtObject());
-
+                MyRealtObject realtTmp = new MyRealtObject();
+                if (call_data.equals("flat")) {
+                    realtTmp.setType(1);
+                } else if (call_data.equals("house")) {
+                    realtTmp.setType(2);
+                } else if (call_data.equals("room")) {
+                    realtTmp.setType(3);
+                } else if (call_data.equals("new_build")) {
+                    realtTmp.setType(4);
+                } else if (call_data.equals("area")) {
+                    realtTmp.setType(5);
+                } else if (call_data.equals("garage")) {
+                    realtTmp.setType(6);
+                } else if (call_data.equals("cottage")) {
+                    realtTmp.setType(7);
+                } else if (call_data.equals("commerce")) {
+                    realtTmp.setType(8);
+                } else {
+                    System.out.printf("ERROR: realt type wrong!");
+                }
+                objectMap.put(chatId, realtTmp);
+                System.out.println(objectMap.get(chatId));
 
                 //готовим сообщеине для отправки
                 messageToSend = new EditMessageText()

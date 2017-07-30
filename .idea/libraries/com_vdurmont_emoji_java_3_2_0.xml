@@ -4,8 +4,6 @@
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/com/vdurmont/emoji-java/3.2.0/emoji-java-3.2.0.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/json/json/20140107/json-20140107.jar!/" />
-      <root url="jar://$MAVEN_REPOSITORY$/com/vdurmont/emoji-java/3.2.0/emoji-java-3.2.0.jar!/" />
-      <root url="jar://$MAVEN_REPOSITORY$/org/json/json/20140107/json-20140107.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

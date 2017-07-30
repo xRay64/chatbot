@@ -26,7 +26,6 @@ abstract class BotDBConnection implements Connection {
         props.setProperty("password",dbUri.getUserInfo().split(":")[1]);
         props.setProperty("sslmode","require");
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-
         return DriverManager.getConnection(dbUrl, props);
     }
 
