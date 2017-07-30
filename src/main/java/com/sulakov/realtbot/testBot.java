@@ -118,7 +118,12 @@ public class testBot extends TelegramLongPollingBot {
             String call_data = update.getCallbackQuery().getData();
             message_id = update.getCallbackQuery().getMessage().getMessageId(); //пишем message_id в переменную
 
-            if (call_data.equals("flat") || call_data.equals("house")) {
+            if (call_data.equals("flat") || call_data.equals("house") || call_data.equals("room") || call_data.equals("new_build") || call_data.equals("area") || call_data.equals("garage")
+                    || call_data.equals("cottage") || call_data.equals("commerce")) {
+                objectMap.put(chatId, new MyRealtObject());
+
+
+                //готовим сообщеине для отправки
                 messageToSend = new EditMessageText()
                         .setText("Какой райн?")
                         .setChatId(chatId)

@@ -95,4 +95,71 @@ public class MyRealtObject {
         this.depositDateTo = depositDateTo;
     }
 
+    public String getMikroraion() {
+        return mikroraion;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public int getHouseNumber() {
+        return houseNumber;
+    }
+
+    public int getAptNumber() {
+        return aptNumber;
+    }
+
+    public int getRooms() {
+        return rooms;
+    }
+
+    public int getFloor() {
+        return floor;
+    }
+
+    public int getFloorInHouse() {
+        return floorInHouse;
+    }
+
+    public int getTotalArea() {
+        return totalArea;
+    }
+
+    public String getBath() {
+        return bath;
+    }
+
+    public String getHouseType() {
+        return houseType;
+    }
+
+    public String getBalcony() {
+        return balcony;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public int getPhone() {
+        return phone;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public int getDeposit() {
+        return deposit;
+    }
+
+    public Date getDepositDateFrom() {
+        return depositDateFrom;
+    }
+
+    public Date getDepositDateTo() {
+        return depositDateTo;
+    }
 }
