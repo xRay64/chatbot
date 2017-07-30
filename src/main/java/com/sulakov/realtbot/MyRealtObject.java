@@ -257,6 +257,6 @@ public class MyRealtObject {
         if (depositDateTo != null) {
             toReturn += "Дата окончания задатка: " + depositDateTo + "\n";
         }
-        return super.toString();
+        return toReturn;
     }
 }
