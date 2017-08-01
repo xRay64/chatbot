@@ -7,6 +7,7 @@ import java.util.Date;
  */
 public class MyRealtObject {
 
+    private String name;         //Имя объекта
     private int type;            //1 - квартира
     //2 - дом
     //3 - комната
@@ -256,6 +257,9 @@ public class MyRealtObject {
         }
         if (depositDateTo != null) {
             toReturn += "Дата окончания задатка: " + depositDateTo + "\n";
+        }
+        if (!toReturn.equals("")) {
+            toReturn += "---------- \n";
         }
         return toReturn;
     }
