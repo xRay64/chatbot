@@ -24,7 +24,7 @@ class MyInlineKeyboardCreator {
         int rowLength = 0;
         for (int i = 0; i < buttonsMap.size(); i++) {
             rowLength += buttonsMap.get(i).getNameSize();
-            if (rowLength <= 20) {
+            if (rowLength <= 10) {
                 rowInline.add(buttonsMap.get(i));
             } else {
                 rowsInline.add(rowInline);

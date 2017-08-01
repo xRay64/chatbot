@@ -14,6 +14,11 @@ public class MyInlineKeyboardButton extends org.telegram.telegrambots.api.object
     }
 
     public int getNameSize() {
-        return name.indexOf(':');
+        int toReturn = 0;
+        if (name.contains(":")) {
+            toReturn = name.indexOf(':');
+        }
+        else toReturn = name.length();
+        return toReturn;
     }
 }

@@ -140,13 +140,30 @@ public class testBot extends TelegramLongPollingBot {
                 objectMap.put(chatId, realtTmp);
                 System.out.println(objectMap.get(chatId));
 
+                HashMap<Integer, MyInlineKeyboardButton> buttonsMap = new HashMap<Integer, MyInlineKeyboardButton>();
+                buttonsMap.put(0, new MyInlineKeyboardButton("1", "m1"));
+                buttonsMap.put(1, new MyInlineKeyboardButton("2", "m2"));
+                buttonsMap.put(2, new MyInlineKeyboardButton("3", "m3"));
+                buttonsMap.put(3, new MyInlineKeyboardButton("4", "m4"));
+                buttonsMap.put(4, new MyInlineKeyboardButton("4б", "m4b"));
+                buttonsMap.put(5, new MyInlineKeyboardButton("5", "m5"));
+                buttonsMap.put(6, new MyInlineKeyboardButton("5а", "m5a"));
+                buttonsMap.put(7, new MyInlineKeyboardButton("6", "m6"));
+                buttonsMap.put(8, new MyInlineKeyboardButton("7", "m7"));
+                buttonsMap.put(9, new MyInlineKeyboardButton("8", "m8"));
+                buttonsMap.put(10, new MyInlineKeyboardButton("8а", "m8a"));
+                buttonsMap.put(11, new MyInlineKeyboardButton("9", "m9"));
+                buttonsMap.put(12, new MyInlineKeyboardButton("9а", "m9a"));
+                buttonsMap.put(13, new MyInlineKeyboardButton("11", "m11"));
+                buttonsMap.put(14, new MyInlineKeyboardButton("21", "m21"));
+                buttonsMap.put(14, new MyInlineKeyboardButton("Своё значение", "m_hand"));
+
                 //готовим сообщеине для отправки
                 messageToSend = new EditMessageText()
                         .setText("Какой райн?")
                         .setChatId(chatId)
                         .setMessageId((int)message_id)
-                        .setReplyMarkup(MyInlineKeyboardCreator.get("Старый город", "жг", "Серединка", "серединка",
-                                "Новые районы", "новые"));
+                        .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(buttonsMap));
             } else if (call_data.equals("жг") || call_data.equals("серединка") || call_data.equals("новые")) {
                 messageToSend = new EditMessageText()
                         .setText("Сколько комнат?")
