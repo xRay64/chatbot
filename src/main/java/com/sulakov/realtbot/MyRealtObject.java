@@ -183,7 +183,7 @@ public class MyRealtObject {
 
     @Override
     public String toString() {
-        String toReturn = "";
+        String toReturn = "Объект: \n";
         if (type != 0) {
             String typeToString = "";
             if (type == 1) {
