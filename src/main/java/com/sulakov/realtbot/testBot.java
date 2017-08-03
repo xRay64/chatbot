@@ -42,7 +42,7 @@ public class testBot extends TelegramLongPollingBot {
                     tmpO.setMikroraion(messageText);
                     messageToSend = new EditMessageText()
                             .setChatId(chatId)
-                            .setMessageId(update.getCallbackQuery().getMessage().getMessageId())
+                            .setMessageId(update.getMessage().getMessageId())
                             .setText(objectMap.get(chatId) + "Введите улицу");
                     settingsMap.put(chatId, "street_hand");
                 }
@@ -53,7 +53,7 @@ public class testBot extends TelegramLongPollingBot {
                     tmpO.setStreet(messageText);
                     messageToSend = new EditMessageText()
                             .setChatId(chatId)
-                            .setMessageId(update.getCallbackQuery().getMessage().getMessageId())
+                            .setMessageId(update.getMessage().getMessageId())
                             .setText(objectMap.get(chatId) + "Введите номер дома");
                     settingsMap.put(chatId, "houseNumber_hand");
                 } else {
@@ -151,7 +151,7 @@ public class testBot extends TelegramLongPollingBot {
             } else if (call_data.equals("m_hand")) {
                 settingsMap.put(chatId, "mikroraion_hand");
                 messageToSend = new EditMessageText()
-                        .setText("Какой район?")
+                        .setText(objectMap.get(chatId) + "Введите район")
                         .setChatId(chatId)
                         .setMessageId((int) message_id);
 //            } else if (MyButtonsMap.getMikroraionMap().containsValue(call_data)/*call_data.equals("m1") || call_data.equals("m2") || call_data.equals("m3") || call_data.equals("m4") || call_data.equals("m4b") || call_data.equals("m5") || call_data.equals("m5a") || call_data.equals("m6")
