@@ -1,10 +1,12 @@
 package com.sulakov.realtbot;
 
 import com.vdurmont.emoji.EmojiParser;
+import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardRemove;
@@ -28,21 +30,24 @@ public class testBot extends TelegramLongPollingBot {
         long chatId; //пишем ChatId в переменную
         String messageText = null; //пишем текст сообщения в переменную
         long message_id;
+        long user_id = 0;
 
         if (update.hasMessage()) {
 
             if (update.getMessage().hasText()) {
                 chatId = update.getMessage().getChatId();
                 messageText = update.getMessage().getText();
+                message_id = update.getMessage().getMessageId();
+                System.out.println(message_id);
+
 
                 //ручной ввод микрорайона
                 if (settingsMap.containsKey(chatId) && settingsMap.get(chatId).equals("mikroraion_hand")) {
                     settingsMap.put(chatId, "");
                     MyRealtObject tmpO = objectMap.get(chatId);
                     tmpO.setMikroraion(messageText);
-                    messageToSend = new EditMessageText()
+                    messageToSend = new SendMessage()
                             .setChatId(chatId)
-                            .setMessageId(update.getMessage().getMessageId())
                             .setText(objectMap.get(chatId) + "Введите улицу");
                     settingsMap.put(chatId, "street_hand");
                 }
@@ -51,9 +56,8 @@ public class testBot extends TelegramLongPollingBot {
                     settingsMap.put(chatId, "");
                     MyRealtObject tmpO = objectMap.get(chatId);
                     tmpO.setStreet(messageText);
-                    messageToSend = new EditMessageText()
+                    messageToSend = new SendMessage()
                             .setChatId(chatId)
-                            .setMessageId(update.getMessage().getMessageId())
                             .setText(objectMap.get(chatId) + "Введите номер дома");
                     settingsMap.put(chatId, "houseNumber_hand");
                 } else {
@@ -82,10 +86,14 @@ public class testBot extends TelegramLongPollingBot {
                         // Set the keyboard to the markup
                         keyboardMarkup.setKeyboard(keyboard);
                         // Create messageToSend and add markup to the message
-                        messageToSend = new SendMessage()
-                                .setChatId(chatId)
-                                .setText("Клавиатура добавлена")
-                                .setReplyMarkup(keyboardMarkup);
+//                        messageToSend = new SendMessage()
+//                                .setChatId(chatId)
+//                                .setText("Клавиатура добавлена")
+//                                .setReplyMarkup(keyboardMarkup);
+                        MySendMessage("msg", new SendMessage()
+                                                    .setChatId(chatId)
+                                                    .setText("Клавиатура добавлена")
+                                                    .setReplyMarkup(keyboardMarkup));
 
                     } else if (messageText.equals("/добавить_объект")) {
                         //заполняем HashMap кнопками
@@ -102,8 +110,7 @@ public class testBot extends TelegramLongPollingBot {
                         } else {
                             messageToSend = new SendMessage() // Create a SendMessage object with mandatory fields
                                     .setChatId(update.getMessage().getChatId())
-                                    .setText(EmojiParser.parseToUnicode((update.getMessage().getText().replaceAll("\\s+", "::")))
-                                            + EmojiParser.parseToUnicode("\nHere is a smile emoji::smile:\n Here is alien emoji: :alien:"));
+                                    .setText("Остальной функционал в разработке =(");
                         }
                     }
 
@@ -115,9 +122,11 @@ public class testBot extends TelegramLongPollingBot {
             chatId = update.getCallbackQuery().getMessage().getChatId();
             String call_data = update.getCallbackQuery().getData();
             message_id = update.getCallbackQuery().getMessage().getMessageId(); //пишем message_id в переменную
+            System.out.println(message_id);
 
             if (/*MyButtonsMap.getTypeMap().containsValue(call_data)*/call_data.equals("flat") || call_data.equals("house") || call_data.equals("room") || call_data.equals("new_build") || call_data.equals("area") || call_data.equals("garage")
                     || call_data.equals("cottage") || call_data.equals("commerce")) {
+                System.out.println("Внутри обработчика типа объекта");
                 MyRealtObject realtTmp = new MyRealtObject();
                 if (call_data.equals("flat")) {
                     realtTmp.setType(1);
@@ -136,7 +145,7 @@ public class testBot extends TelegramLongPollingBot {
                 } else if (call_data.equals("commerce")) {
                     realtTmp.setType(8);
                 } else {
-                    System.out.printf("ERROR: realt type wrong!");
+                    System.out.println("ERROR: realt type wrong!");
                 }
                 objectMap.put(chatId, realtTmp);
 
@@ -146,8 +155,50 @@ public class testBot extends TelegramLongPollingBot {
                         .setChatId(chatId)
                         .setMessageId((int)message_id)
                         .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(MyButtonsMap.getMikroraionMap()));
-            } else if (MyButtonsMap.getMikroraionMap().containsValue(call_data)) {
-                System.out.println("test");
+            } else if (MyButtonsMap.getMikroraionMapValues().contains(call_data)) {
+                System.out.println("Внутри обработчика микрорайона");
+                MyRealtObject realtTmp = objectMap.get(chatId);
+                if (call_data.equals("m1")) {
+                    realtTmp.setMikroraion("1");
+                } else if (call_data.equals("m2")) {
+                    realtTmp.setMikroraion("2");
+                } else if (call_data.equals("m3")) {
+                    realtTmp.setMikroraion("3");
+                } else if (call_data.equals("m4")) {
+                    realtTmp.setMikroraion("4");
+                } else if (call_data.equals("m4b")) {
+                    realtTmp.setMikroraion("4б");
+                } else if (call_data.equals("m5")) {
+                    realtTmp.setMikroraion("5");
+                } else if (call_data.equals("m5a")) {
+                    realtTmp.setMikroraion("5а");
+                } else if (call_data.equals("m6")) {
+                    realtTmp.setMikroraion("6");
+                } else if (call_data.equals("m7")) {
+                    realtTmp.setMikroraion("7");
+                } else if (call_data.equals("m8")) {
+                    realtTmp.setMikroraion("8");
+                } else if (call_data.equals("m9")) {
+                    realtTmp.setMikroraion("9");
+                } else if (call_data.equals("m9a")) {
+                    realtTmp.setMikroraion("9а");
+                } else if (call_data.equals("m10")) {
+                    realtTmp.setMikroraion("10");
+                } else if (call_data.equals("m11")) {
+                    realtTmp.setMikroraion("11");
+                } else if (call_data.equals("m21")) {
+                    realtTmp.setMikroraion("21");
+                } else {
+                    System.out.println("ERROR: realt mikroraion wrong!");
+                }
+                objectMap.put(chatId, realtTmp);
+
+                //готовим сообщеине для отправки
+                messageToSend = new EditMessageText()
+                        .setText(objectMap.get(chatId) + "Введите улицу")
+                        .setChatId(chatId)
+                        .setMessageId((int)message_id);
+                settingsMap.put(chatId, "street_hand");
             } else if (call_data.equals("m_hand")) {
                 settingsMap.put(chatId, "mikroraion_hand");
                 messageToSend = new EditMessageText()
@@ -197,6 +248,20 @@ public class testBot extends TelegramLongPollingBot {
 
     public String getBotToken() {
         return Main.botToken;
+    }
+
+    private void MySendMessage(String type, PartialBotApiMethod message) {
+        try {
+            if (type.equals("msg")) {
+                sendMessage((SendMessage) message);
+            } else if (type.equals("photo")) {
+                sendPhoto((SendPhoto) message);
+            } else if (type.equals("edit")) {
+                editMessageText((EditMessageText) message);
+            } else System.out.println("Error in MySendMessage");
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
 }

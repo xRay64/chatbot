@@ -1,5 +1,6 @@
 package com.sulakov.realtbot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MyButtonsMap {
@@ -31,9 +32,10 @@ public class MyButtonsMap {
         mikroraionMap.put(10, new MyInlineKeyboardButton("8а", "m8a"));
         mikroraionMap.put(11, new MyInlineKeyboardButton("9", "m9"));
         mikroraionMap.put(12, new MyInlineKeyboardButton("9а", "m9a"));
-        mikroraionMap.put(13, new MyInlineKeyboardButton("11", "m11"));
-        mikroraionMap.put(14, new MyInlineKeyboardButton("21", "m21"));
-        mikroraionMap.put(14, new MyInlineKeyboardButton("Своё значение", "m_hand"));
+        mikroraionMap.put(13, new MyInlineKeyboardButton("10", "m10"));
+        mikroraionMap.put(14, new MyInlineKeyboardButton("11", "m11"));
+        mikroraionMap.put(15, new MyInlineKeyboardButton("21", "m21"));
+        mikroraionMap.put(16, new MyInlineKeyboardButton("Своё значение", "m_hand"));
     }
 
     public static HashMap<Integer, MyInlineKeyboardButton> getTypeMap() {
@@ -42,5 +44,21 @@ public class MyButtonsMap {
 
     public static HashMap<Integer, MyInlineKeyboardButton> getMikroraionMap() {
         return mikroraionMap;
+    }
+
+    public static ArrayList<String> getTypeMapValues() {
+        ArrayList<String> toReturn = new ArrayList<>();
+        for (MyInlineKeyboardButton s : typeMap.values()) {
+            toReturn.add(s.getCallbackData());
+        }
+        return toReturn;
+    }
+
+    public static ArrayList<String> getMikroraionMapValues() {
+        ArrayList<String> toReturn = new ArrayList<>();
+        for (MyInlineKeyboardButton s : mikroraionMap.values()) {
+            toReturn.add(s.getCallbackData());
+        }
+        return toReturn;
     }
 }
