@@ -74,6 +74,7 @@ public class testBot extends TelegramLongPollingBot {
                             .setText(objectMap.get(chatId) + "Количество комнат"));
                 } else if (settingsMap.containsKey(chatId) && settingsMap.get(chatId).equals("room_hand")) {
                     MyRealtObject tmpO = objectMap.get(chatId);
+                    //todo реалтзовать парсинг числа из текста
                     tmpO.setRooms(Integer.parseInt(messageText));
                     MySendMessage("msg", new SendMessage()
                             .setChatId(chatId)
