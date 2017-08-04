@@ -68,7 +68,6 @@ public class MyButtonsMap {
 
     }
 
-
     public static HashMap<Integer, MyInlineKeyboardButton> getButtonsMap(String param) {
         HashMap<Integer, MyInlineKeyboardButton> tmpMap = null;
         if (param.equals("type")) {
@@ -81,15 +80,6 @@ public class MyButtonsMap {
             tmpMap = floorNumbersMap;
         }
         return tmpMap;
-    }
-
-
-    public static ArrayList<String> getTypeMapValues() {
-        ArrayList<String> toReturn = new ArrayList<>();
-        for (MyInlineKeyboardButton s : typeMap.values()) {
-            toReturn.add(s.getCallbackData());
-        }
-        return toReturn;
     }
 
     public static ArrayList<String> getMapValues(String param) {
