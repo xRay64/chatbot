@@ -1,12 +1,9 @@
 package com.sulakov.realtbot;
 
-import com.vdurmont.emoji.EmojiParser;
-import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
-import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardRemove;
@@ -14,7 +11,10 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Антон Сулаков on 08.06.2017.
@@ -30,7 +30,6 @@ public class testBot extends TelegramLongPollingBot {
         long chatId; //пишем ChatId в переменную
         String messageText = null; //пишем текст сообщения в переменную
         long message_id;
-        long user_id = 0;
 
         if (update.hasMessage()) {
 
@@ -40,85 +39,98 @@ public class testBot extends TelegramLongPollingBot {
                 message_id = update.getMessage().getMessageId();
                 System.out.println(message_id);
 
-
                 //ручной ввод микрорайона
                 if (settingsMap.containsKey(chatId) && settingsMap.get(chatId).equals("mikroraion_hand")) {
-                    settingsMap.put(chatId, "");
                     MyRealtObject tmpO = objectMap.get(chatId);
                     tmpO.setMikroraion(messageText);
-                    messageToSend = new SendMessage()
+                    MySendMessage("msg", new SendMessage()
                             .setChatId(chatId)
-                            .setText(objectMap.get(chatId) + "Введите улицу");
+                            .setText(objectMap.get(chatId) + "Введите улицу"));
                     settingsMap.put(chatId, "street_hand");
                 }
                 //ручной ввод улицы
                 else if (settingsMap.containsKey(chatId) && settingsMap.get(chatId).equals("street_hand")) {
-                    settingsMap.put(chatId, "");
                     MyRealtObject tmpO = objectMap.get(chatId);
                     tmpO.setStreet(messageText);
-                    messageToSend = new SendMessage()
+                    MySendMessage("msg", new SendMessage()
                             .setChatId(chatId)
-                            .setText(objectMap.get(chatId) + "Введите номер дома");
+                            .setText(objectMap.get(chatId) + "Введите номер дома"));
                     settingsMap.put(chatId, "houseNumber_hand");
-                } else {
-                    if (messageText.toUpperCase().contains("ПРИВЕТ")) {
-                        messageToSend = new SendMessage(chatId, "Привет, " + update.getMessage().getChat().getFirstName()
-                                + " "
-                                + update.getMessage().getChat().getLastName());
-                    } else if (messageText.equals("/start")) {
-                        //Creating custom keyboard
-                        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
-                        List<KeyboardRow> keyboard = new ArrayList<KeyboardRow>();
-                        KeyboardRow row = new KeyboardRow();
-                        //adding first row
-                        row.add("/pic");
-                        row.add("/добавить_объект");
-                        row.add("Row 1 Button 3");
-                        keyboard.add(row);
-                        //adding second row
-                        row = new KeyboardRow();
-                        // Set each button for the second line
-                        row.add("Row 2 Button 1");
-                        row.add("Row 2 Button 2");
-                        row.add("/скрыть клавиатуру");
-                        // Add the second row to the keyboard
-                        keyboard.add(row);
-                        // Set the keyboard to the markup
-                        keyboardMarkup.setKeyboard(keyboard);
-                        // Create messageToSend and add markup to the message
-//                        messageToSend = new SendMessage()
-//                                .setChatId(chatId)
-//                                .setText("Клавиатура добавлена")
-//                                .setReplyMarkup(keyboardMarkup);
-                        MySendMessage("msg", new SendMessage()
-                                                    .setChatId(chatId)
-                                                    .setText("Клавиатура добавлена")
-                                                    .setReplyMarkup(keyboardMarkup));
-
-                    } else if (messageText.equals("/добавить_объект")) {
-                        //заполняем HashMap кнопками
-                        messageToSend = new SendMessage()
-                                .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(MyButtonsMap.getTypeMap()))
-                                .setChatId(chatId)
-                                .setText("Добавить объект в базу");
-                    } else {
-                        if (messageText.equals("/скрыть клавиатуру")) {
-                            messageToSend = new SendMessage()
-                                    .setChatId(chatId)
-                                    .setText("Клавиатура скрыта")
-                                    .setReplyMarkup(new ReplyKeyboardRemove());
-                        } else {
-                            messageToSend = new SendMessage() // Create a SendMessage object with mandatory fields
-                                    .setChatId(update.getMessage().getChatId())
-                                    .setText("Остальной функционал в разработке =(");
-                        }
-                    }
-
                 }
+                //ручной ввод номера дома
+                else if (settingsMap.containsKey(chatId) && settingsMap.get(chatId).equals("houseNumber_hand")) {
+                    MyRealtObject tmpO = objectMap.get(chatId);
+                    tmpO.setHouseNumber(messageText);
+                    MySendMessage("msg", new SendMessage()
+                            .setChatId(chatId)
+                            .setText(objectMap.get(chatId) + "Введите номер квартиры"));
+                    settingsMap.put(chatId, "apt_hand");
+                } else if (settingsMap.containsKey(chatId) && settingsMap.get(chatId).equals("apt_hand")) {
+                    MyRealtObject tmpO = objectMap.get(chatId);
+                    tmpO.setAptNumber(messageText);
+                    MySendMessage("msg", new SendMessage()
+                            .setChatId(chatId)
+                            .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(MyButtonsMap.getButtonsMap("room")))
+                            .setText(objectMap.get(chatId) + "Количество комнат"));
+                } else if (settingsMap.containsKey(chatId) && settingsMap.get(chatId).equals("room_hand")) {
+                    MyRealtObject tmpO = objectMap.get(chatId);
+                    tmpO.setRooms(Integer.parseInt(messageText));
+                    MySendMessage("msg", new SendMessage()
+                            .setChatId(chatId)
+                            .setText(objectMap.get(chatId) + "Выберите этаж"));
+                }
+
+
+                //-------**********----------
+                else if (messageText.toUpperCase().contains("ПРИВЕТ")) {
+                    MySendMessage("msg", new SendMessage(chatId, "Привет, " + update.getMessage().getChat().getFirstName()
+                            + " "
+                            + update.getMessage().getChat().getLastName()));
+                } else if (messageText.equals("/start")) {
+                    //Creating custom keyboard
+                    ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
+                    List<KeyboardRow> keyboard = new ArrayList<KeyboardRow>();
+                    KeyboardRow row = new KeyboardRow();
+                    //adding first row
+                    row.add("/pic");
+                    row.add("/добавить_объект");
+                    row.add("Row 1 Button 3");
+                    keyboard.add(row);
+                    //adding second row
+                    row = new KeyboardRow();
+                    // Set each button for the second line
+                    row.add("Row 2 Button 1");
+                    row.add("Row 2 Button 2");
+                    row.add("/скрыть клавиатуру");
+                    // Add the second row to the keyboard
+                    keyboard.add(row);
+                    // Set the keyboard to the markup
+                    keyboardMarkup.setKeyboard(keyboard);
+                    MySendMessage("msg", new SendMessage()
+                            .setChatId(chatId)
+                            .setText("Клавиатура добавлена")
+                            .setReplyMarkup(keyboardMarkup));
+
+                } else if (messageText.equals("/добавить_объект")) {
+                    MySendMessage("msg", new SendMessage()
+                            .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(MyButtonsMap.getButtonsMap("type")))
+                            .setChatId(chatId)
+                            .setText("Добавить объект в базу"));
+                } else if (messageText.equals("/скрыть клавиатуру")) {
+                    MySendMessage("msg", new SendMessage()
+                            .setChatId(chatId)
+                            .setText("Клавиатура скрыта")
+                            .setReplyMarkup(new ReplyKeyboardRemove()));
+                } else {
+                    MySendMessage("msg", new SendMessage()
+                            .setChatId(update.getMessage().getChatId())
+                            .setText("Остальной функционал в разработке =("));
+                }
+
+
             }
 
-        }
-        else if (update.hasCallbackQuery()) {
+        } else if (update.hasCallbackQuery()) {
             chatId = update.getCallbackQuery().getMessage().getChatId();
             String call_data = update.getCallbackQuery().getData();
             message_id = update.getCallbackQuery().getMessage().getMessageId(); //пишем message_id в переменную
@@ -150,12 +162,12 @@ public class testBot extends TelegramLongPollingBot {
                 objectMap.put(chatId, realtTmp);
 
                 //готовим сообщеине для отправки
-                messageToSend = new EditMessageText()
-                        .setText(objectMap.get(chatId) + "Какой райн?")
+                MySendMessage("edit", new EditMessageText()
+                        .setText(objectMap.get(chatId) + "Выберите райн")
                         .setChatId(chatId)
-                        .setMessageId((int)message_id)
-                        .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(MyButtonsMap.getMikroraionMap()));
-            } else if (MyButtonsMap.getMikroraionMapValues().contains(call_data)) {
+                        .setMessageId((int) message_id)
+                        .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(MyButtonsMap.getButtonsMap("mikro"))));
+            } else if (MyButtonsMap.getMapValues("mikro").contains(call_data)) {
                 System.out.println("Внутри обработчика микрорайона");
                 MyRealtObject realtTmp = objectMap.get(chatId);
                 if (call_data.equals("m1")) {
@@ -194,49 +206,45 @@ public class testBot extends TelegramLongPollingBot {
                 objectMap.put(chatId, realtTmp);
 
                 //готовим сообщеине для отправки
-                messageToSend = new EditMessageText()
+                MySendMessage("edit", new EditMessageText()
                         .setText(objectMap.get(chatId) + "Введите улицу")
                         .setChatId(chatId)
-                        .setMessageId((int)message_id);
+                        .setMessageId((int) message_id));
                 settingsMap.put(chatId, "street_hand");
             } else if (call_data.equals("m_hand")) {
                 settingsMap.put(chatId, "mikroraion_hand");
-                messageToSend = new EditMessageText()
+                MySendMessage("edit", new EditMessageText()
                         .setText(objectMap.get(chatId) + "Введите район")
                         .setChatId(chatId)
-                        .setMessageId((int) message_id);
-//            } else if (MyButtonsMap.getMikroraionMap().containsValue(call_data)/*call_data.equals("m1") || call_data.equals("m2") || call_data.equals("m3") || call_data.equals("m4") || call_data.equals("m4b") || call_data.equals("m5") || call_data.equals("m5a") || call_data.equals("m6")
-//                    || call_data.equals("m7") || call_data.equals("m8") || call_data.equals("m8a") || call_data.equals("m9") || call_data.equals("m9a") || call_data.equals("m11") || call_data.equals("m21")*/) {
-//                System.out.println("Внутри микрорайона");
+                        .setMessageId((int) message_id));
+            } else if (call_data.equals("room_hand")) {
+                settingsMap.put(chatId, "room_hand");
+                MySendMessage("edit", new EditMessageText()
+                        .setText(objectMap.get(chatId) + "Введите количество комнат")
+                        .setChatId(chatId)
+                        .setMessageId((int) message_id));
+            } else if (MyButtonsMap.getMapValues("room").contains(call_data)) {
+                System.out.println("Внутри обработчика количества комнат");
+                MyRealtObject realtTmp = objectMap.get(chatId);
+                if (call_data.equals("r1")) {
+                    realtTmp.setRooms(1);
+                } else if (call_data.equals("r2")) {
+                    realtTmp.setRooms(2);
+                } else if (call_data.equals("r3")) {
+                    realtTmp.setRooms(3);
+                } else if (call_data.equals("r4")) {
+                    realtTmp.setRooms(4);
+                } else if (call_data.equals("r5")) {
+                    realtTmp.setRooms(5);
+                } else System.out.println("ERROR: realt rooms wrong!");
+                objectMap.put(chatId, realtTmp);
 
-                //готовим сообщеине для отправки
-//                messageToSend = new EditMessageText()
-//                        .setText("Сколько комнат?")
-//                        .setChatId(update.getMessage().getChat().getId())
-//                        .setMessageId((int) message_id)
-//                        .setReplyMarkup(MyInlineKeyboardCreator.get(":one:", "1", ":two:", "2", ":three:", "3", ":four:", "4"));
-            } else if (call_data.equals("1") || call_data.equals("2") || call_data.equals("3") || call_data.equals("4")) {
-                messageToSend = new SendMessage()
-                        .setChatId(update.getMessage().getChat().getId())
-                        .setText("Объект добавлен!");
+                MySendMessage("edit", new EditMessageText()
+                        .setChatId(chatId)
+                        .setMessageId((int) message_id)
+                        .setText(objectMap.get(chatId) + "Выберите этаж"));
+
             }
-
-
-
-        }
-        try {
-            if (Objects.equals(messageToSend.getClass(), new SendMessage().getClass())) {
-                System.out.println(messageToSend);
-                sendMessage((SendMessage) messageToSend); // Call method to botSend the message
-            } else if (Objects.equals(messageToSend.getClass(), new SendPhoto().getClass())) {
-                System.out.println(messageToSend);
-                sendPhoto((SendPhoto) messageToSend);
-            } else if (Objects.equals(messageToSend.getClass(), new EditMessageText().getClass())) {
-                System.out.println(messageToSend);
-                editMessageText((EditMessageText) messageToSend);
-            }
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
         }
     }
 
@@ -250,6 +258,7 @@ public class testBot extends TelegramLongPollingBot {
         return Main.botToken;
     }
 
+    //метод отправки сообщений
     private void MySendMessage(String type, PartialBotApiMethod message) {
         try {
             if (type.equals("msg")) {

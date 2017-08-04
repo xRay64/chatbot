@@ -16,11 +16,11 @@ public class MyRealtObject {
     //6 - гараж
     //7 - дача
     //8 - комерческая недвижимость
-    private String mikroraion;   //1. Микрорайон
-    private String street;       //2. Улица
-    private int houseNumber;     //3. Номер дома
-    private int aptNumber;       //4. Номер квартиры
-    private int rooms;           //5. Кол-во комнат
+    private String mikroraion;   //1. Микрорайон *
+    private String street;       //2. Улица *
+    private String houseNumber;  //3. Номер дома *
+    private String aptNumber;    //4. Номер квартиры *
+    private int rooms;           //5. Кол-во комнат *
     private int floor;           //6. Этаж
     private int floorInHouse;    //7. Всего этажей в доме
     private int totalArea;       //8. Общая площадь
@@ -53,11 +53,11 @@ public class MyRealtObject {
         this.street = street;
     }
 
-    public void setHouseNumber(int houseNumber) {
+    public void setHouseNumber(String houseNumber) {
         this.houseNumber = houseNumber;
     }
 
-    public void setAptNumber(int aptNumber) {
+    public void setAptNumber(String aptNumber) {
         this.aptNumber = aptNumber;
     }
 
@@ -121,11 +121,11 @@ public class MyRealtObject {
         return street;
     }
 
-    public int getHouseNumber() {
+    public String getHouseNumber() {
         return houseNumber;
     }
 
-    public int getAptNumber() {
+    public String getAptNumber() {
         return aptNumber;
     }
 
@@ -213,10 +213,10 @@ public class MyRealtObject {
         if (street != null) {
             toReturn += "Улица: " + street + "\n";
         }
-        if (houseNumber != 0) {
+        if (houseNumber != null) {
             toReturn += "Номер дома: " + houseNumber + "\n";
         }
-        if (aptNumber != 0) {
+        if (aptNumber != null) {
             toReturn += "Номер квартиры: " + aptNumber + "\n";
         }
         if (rooms != 0) {
