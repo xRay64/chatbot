@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Антон Сулаков on 08.06.2017.
@@ -23,6 +25,7 @@ public class testBot extends TelegramLongPollingBot {
 
     Map<Long, String> settingsMap = new HashMap<Long, String>();
     Map<Long, MyRealtObject> objectMap = new HashMap<Long, MyRealtObject>();
+    public static final Pattern digPattern = Pattern.compile("\\d+");
 
     public void onUpdateReceived(Update update) {
         System.out.println(update);
@@ -74,11 +77,34 @@ public class testBot extends TelegramLongPollingBot {
                             .setText(objectMap.get(chatId) + "Количество комнат"));
                 } else if (settingsMap.containsKey(chatId) && settingsMap.get(chatId).equals("room_hand")) {
                     MyRealtObject tmpO = objectMap.get(chatId);
-                    //todo реалтзовать парсинг числа из текста
-                    tmpO.setRooms(Integer.parseInt(messageText));
-                    MySendMessage("msg", new SendMessage()
-                            .setChatId(chatId)
-                            .setText(objectMap.get(chatId) + "Выберите этаж"));
+                    //Проверяем является ли введеное значение числом
+                    Matcher matcher = digPattern.matcher(messageText);
+                    if (!matcher.matches()) {
+                        MySendMessage("msg", new SendMessage()
+                                .setChatId(chatId)
+                                .setText("ОШИБКА: Значение должно быть числом\nПовторите ввод"));
+                    } else {
+                        System.out.println("Matcher false");
+                        tmpO.setRooms(Integer.parseInt(messageText));
+                        MySendMessage("msg", new SendMessage()
+                                .setChatId(chatId)
+                                .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(MyButtonsMap.getButtonsMap("floor")))
+                                .setText(objectMap.get(chatId) + "Выберите этаж"));
+                    }
+                } else if (settingsMap.containsKey(chatId) && settingsMap.get(chatId).equals("floor_hand")) {
+                    MyRealtObject tmpO = objectMap.get(chatId);
+                    Matcher matcher = digPattern.matcher(messageText);
+                    if (!matcher.matches()) {
+                        MySendMessage("msg", new SendMessage()
+                                .setChatId(chatId)
+                                .setText("ОШИБКА: Значение должно быть числом\nПовторите ввод"));
+                    } else {
+                        tmpO.setFloor(Integer.parseInt(messageText));
+                        MySendMessage("msg", new SendMessage()
+                                .setChatId(chatId)
+                                .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(MyButtonsMap.getButtonsMap("floor")))
+                                .setText(objectMap.get(chatId) + "Выберите общее количество этажей в доме"));
+                    }
                 }
 
 
@@ -170,42 +196,8 @@ public class testBot extends TelegramLongPollingBot {
                         .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(MyButtonsMap.getButtonsMap("mikro"))));
             } else if (MyButtonsMap.getMapValues("mikro").contains(call_data)) {
                 System.out.println("Внутри обработчика микрорайона");
-                MyRealtObject realtTmp = objectMap.get(chatId);
-                if (call_data.equals("m1")) {
-                    realtTmp.setMikroraion("1");
-                } else if (call_data.equals("m2")) {
-                    realtTmp.setMikroraion("2");
-                } else if (call_data.equals("m3")) {
-                    realtTmp.setMikroraion("3");
-                } else if (call_data.equals("m4")) {
-                    realtTmp.setMikroraion("4");
-                } else if (call_data.equals("m4b")) {
-                    realtTmp.setMikroraion("4б");
-                } else if (call_data.equals("m5")) {
-                    realtTmp.setMikroraion("5");
-                } else if (call_data.equals("m5a")) {
-                    realtTmp.setMikroraion("5а");
-                } else if (call_data.equals("m6")) {
-                    realtTmp.setMikroraion("6");
-                } else if (call_data.equals("m7")) {
-                    realtTmp.setMikroraion("7");
-                } else if (call_data.equals("m8")) {
-                    realtTmp.setMikroraion("8");
-                } else if (call_data.equals("m9")) {
-                    realtTmp.setMikroraion("9");
-                } else if (call_data.equals("m9a")) {
-                    realtTmp.setMikroraion("9а");
-                } else if (call_data.equals("m10")) {
-                    realtTmp.setMikroraion("10");
-                } else if (call_data.equals("m11")) {
-                    realtTmp.setMikroraion("11");
-                } else if (call_data.equals("m21")) {
-                    realtTmp.setMikroraion("21");
-                } else {
-                    System.out.println("ERROR: realt mikroraion wrong!");
-                }
-                objectMap.put(chatId, realtTmp);
-
+                objectMap.get(chatId)
+                        .setMikroraion(call_data.substring(1));
                 //готовим сообщеине для отправки
                 MySendMessage("edit", new EditMessageText()
                         .setText(objectMap.get(chatId) + "Введите улицу")
@@ -226,23 +218,27 @@ public class testBot extends TelegramLongPollingBot {
                         .setMessageId((int) message_id));
             } else if (MyButtonsMap.getMapValues("room").contains(call_data)) {
                 System.out.println("Внутри обработчика количества комнат");
-                MyRealtObject realtTmp = objectMap.get(chatId);
-                if (call_data.equals("r1")) {
-                    realtTmp.setRooms(1);
-                } else if (call_data.equals("r2")) {
-                    realtTmp.setRooms(2);
-                } else if (call_data.equals("r3")) {
-                    realtTmp.setRooms(3);
-                } else if (call_data.equals("r4")) {
-                    realtTmp.setRooms(4);
-                } else if (call_data.equals("r5")) {
-                    realtTmp.setRooms(5);
-                } else System.out.println("ERROR: realt rooms wrong!");
-                objectMap.put(chatId, realtTmp);
-
+                objectMap.get(chatId)
+                        .setRooms(Integer.parseInt(call_data.substring(1)));
                 MySendMessage("edit", new EditMessageText()
                         .setChatId(chatId)
                         .setMessageId((int) message_id)
+                        .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(MyButtonsMap.getButtonsMap("floor")))
+                        .setText(objectMap.get(chatId) + "Выберите этаж"));
+            } else if (call_data.equals("floor_hand")) {
+                settingsMap.put(chatId, "floor_hand");
+                MySendMessage("edit", new EditMessageText()
+                        .setText(objectMap.get(chatId) + "Введите этаж")
+                        .setChatId(chatId)
+                        .setMessageId((int) message_id));
+            } else if (MyButtonsMap.getMapValues("floor").contains(call_data)) {
+                System.out.println("Внутри обработчика этажа");
+                objectMap.get(chatId)
+                    .setFloor(Integer.parseInt(call_data.substring(1)));
+                MySendMessage("edit", new EditMessageText()
+                        .setChatId(chatId)
+                        .setMessageId((int) message_id)
+                       // .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(MyButtonsMap.getButtonsMap("floor")))
                         .setText(objectMap.get(chatId) + "Выберите этаж"));
 
             }

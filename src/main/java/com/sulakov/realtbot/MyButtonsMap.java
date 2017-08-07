@@ -8,6 +8,7 @@ public class MyButtonsMap {
     private static HashMap<Integer, MyInlineKeyboardButton> mikroraionMap = new HashMap<Integer, MyInlineKeyboardButton>();
     private static HashMap<Integer, MyInlineKeyboardButton> roomNumbersMap = new HashMap<Integer, MyInlineKeyboardButton>();
     private static HashMap<Integer, MyInlineKeyboardButton> floorNumbersMap = new HashMap<Integer, MyInlineKeyboardButton>();
+    private static HashMap<Integer, MyInlineKeyboardButton> totalFloorNumbersMap = new HashMap<Integer, MyInlineKeyboardButton>();
 
     static {
         //заполним клавиатуру типов обхектов
@@ -65,6 +66,10 @@ public class MyButtonsMap {
         floorNumbersMap.put(14, new MyInlineKeyboardButton("14", "f14"));
         floorNumbersMap.put(15, new MyInlineKeyboardButton("15", "f15"));
         floorNumbersMap.put(16, new MyInlineKeyboardButton("16", "f16"));
+        floorNumbersMap.put(17, new MyInlineKeyboardButton("Своё значение", "floor_hand"));
+
+        //заполним клавиатуру Всего этажей
+//        totalFloorNumbersMap.put(0, new MyInlineKeyboardButton(0, ))
 
     }
 
