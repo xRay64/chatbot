@@ -22,22 +22,22 @@ public class MyButtonsMap {
         typeMap.put(7, new MyInlineKeyboardButton("Комерческая недвижимость :office:", "commerce"));
 
         //заполним клавиатуру микрорайонов
-        mikroraionMap.put(0, new MyInlineKeyboardButton("1", "m1"));
-        mikroraionMap.put(1, new MyInlineKeyboardButton("2", "m2"));
-        mikroraionMap.put(2, new MyInlineKeyboardButton("3", "m3"));
-        mikroraionMap.put(3, new MyInlineKeyboardButton("4", "m4"));
-        mikroraionMap.put(4, new MyInlineKeyboardButton("4б", "m4b"));
-        mikroraionMap.put(5, new MyInlineKeyboardButton("5", "m5"));
-        mikroraionMap.put(6, new MyInlineKeyboardButton("5а", "m5a"));
-        mikroraionMap.put(7, new MyInlineKeyboardButton("6", "m6"));
-        mikroraionMap.put(8, new MyInlineKeyboardButton("7", "m7"));
-        mikroraionMap.put(9, new MyInlineKeyboardButton("8", "m8"));
-        mikroraionMap.put(10, new MyInlineKeyboardButton("8а", "m8a"));
-        mikroraionMap.put(11, new MyInlineKeyboardButton("9", "m9"));
-        mikroraionMap.put(12, new MyInlineKeyboardButton("9а", "m9a"));
-        mikroraionMap.put(13, new MyInlineKeyboardButton("10", "m10"));
-        mikroraionMap.put(14, new MyInlineKeyboardButton("11", "m11"));
-        mikroraionMap.put(15, new MyInlineKeyboardButton("21", "m21"));
+        mikroraionMap.put(0, new MyInlineKeyboardButton("1", "mikro_1"));
+        mikroraionMap.put(1, new MyInlineKeyboardButton("2", "mikro_2"));
+        mikroraionMap.put(2, new MyInlineKeyboardButton("3", "mikro_3"));
+        mikroraionMap.put(3, new MyInlineKeyboardButton("4", "mikro_4"));
+        mikroraionMap.put(4, new MyInlineKeyboardButton("4б", "mikro_4b"));
+        mikroraionMap.put(5, new MyInlineKeyboardButton("5", "mikro_5"));
+        mikroraionMap.put(6, new MyInlineKeyboardButton("5а", "mikro_5a"));
+        mikroraionMap.put(7, new MyInlineKeyboardButton("6", "mikro_6"));
+        mikroraionMap.put(8, new MyInlineKeyboardButton("7", "mikro_7"));
+        mikroraionMap.put(9, new MyInlineKeyboardButton("8", "mikro_8"));
+        mikroraionMap.put(10, new MyInlineKeyboardButton("8а", "mikro_8a"));
+        mikroraionMap.put(11, new MyInlineKeyboardButton("9", "mikro_9"));
+        mikroraionMap.put(12, new MyInlineKeyboardButton("9а", "mikro_9a"));
+        mikroraionMap.put(13, new MyInlineKeyboardButton("10", "mikro_10"));
+        mikroraionMap.put(14, new MyInlineKeyboardButton("11", "mikro_11"));
+        mikroraionMap.put(15, new MyInlineKeyboardButton("21", "mikro_21"));
         mikroraionMap.put(16, new MyInlineKeyboardButton("Своё значение", "m_hand"));
 
         //заполним клавиатуру микрорайонов
