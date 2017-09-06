@@ -28,10 +28,10 @@ public class testBot extends TelegramLongPollingBot {
     public static final Pattern digPattern = Pattern.compile("\\d+");
 
     public void onUpdateReceived(Update update) {
-        System.out.println(update);
+        System.out.println("DEBUG:UPDATE_RESIVED\n" + update + "\nDEBUG:END_update");
         PartialBotApiMethod messageToSend = null; //инициализируем переменную для сообщения которое будем отправлять
-        long chatId; //пишем ChatId в переменную
-        String messageText = null; //пишем текст сообщения в переменную
+        long chatId;
+        String messageText = null;
         long message_id;
 
         if (update.hasMessage()) {
@@ -46,7 +46,7 @@ public class testBot extends TelegramLongPollingBot {
                 if (settingsMap.containsKey(chatId) && settingsMap.get(chatId).equals("mikroraion_hand")) {
                     MyRealtObject tmpO = objectMap.get(chatId);
                     tmpO.setMikroraion(messageText);
-                    MySendMessage("msg", new SendMessage()
+                    MySendMessage(new SendMessage()
                             .setChatId(chatId)
                             .setText(objectMap.get(chatId) + "Введите улицу"));
                     settingsMap.put(chatId, "street_hand");
@@ -55,7 +55,7 @@ public class testBot extends TelegramLongPollingBot {
                 else if (settingsMap.containsKey(chatId) && settingsMap.get(chatId).equals("street_hand")) {
                     MyRealtObject tmpO = objectMap.get(chatId);
                     tmpO.setStreet(messageText);
-                    MySendMessage("msg", new SendMessage()
+                    MySendMessage(new SendMessage()
                             .setChatId(chatId)
                             .setText(objectMap.get(chatId) + "Введите номер дома"));
                     settingsMap.put(chatId, "houseNumber_hand");
@@ -64,14 +64,14 @@ public class testBot extends TelegramLongPollingBot {
                 else if (settingsMap.containsKey(chatId) && settingsMap.get(chatId).equals("houseNumber_hand")) {
                     MyRealtObject tmpO = objectMap.get(chatId);
                     tmpO.setHouseNumber(messageText);
-                    MySendMessage("msg", new SendMessage()
+                    MySendMessage(new SendMessage()
                             .setChatId(chatId)
                             .setText(objectMap.get(chatId) + "Введите номер квартиры"));
                     settingsMap.put(chatId, "apt_hand");
                 } else if (settingsMap.containsKey(chatId) && settingsMap.get(chatId).equals("apt_hand")) {
                     MyRealtObject tmpO = objectMap.get(chatId);
                     tmpO.setAptNumber(messageText);
-                    MySendMessage("msg", new SendMessage()
+                    MySendMessage(new SendMessage()
                             .setChatId(chatId)
                             .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(MyButtonsMap.getButtonsMap("room")))
                             .setText(objectMap.get(chatId) + "Количество комнат"));
@@ -80,13 +80,13 @@ public class testBot extends TelegramLongPollingBot {
                     //Проверяем является ли введеное значение числом
                     Matcher matcher = digPattern.matcher(messageText);
                     if (!matcher.matches()) {
-                        MySendMessage("msg", new SendMessage()
+                        MySendMessage(new SendMessage()
                                 .setChatId(chatId)
                                 .setText("ОШИБКА: Значение должно быть числом\nПовторите ввод"));
                     } else {
                         System.out.println("Matcher false");
                         tmpO.setRooms(Integer.parseInt(messageText));
-                        MySendMessage("msg", new SendMessage()
+                        MySendMessage(new SendMessage()
                                 .setChatId(chatId)
                                 .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(MyButtonsMap.getButtonsMap("floor")))
                                 .setText(objectMap.get(chatId) + "Выберите этаж"));
@@ -95,12 +95,12 @@ public class testBot extends TelegramLongPollingBot {
                     MyRealtObject tmpO = objectMap.get(chatId);
                     Matcher matcher = digPattern.matcher(messageText);
                     if (!matcher.matches()) {
-                        MySendMessage("msg", new SendMessage()
+                        MySendMessage(new SendMessage()
                                 .setChatId(chatId)
                                 .setText("ОШИБКА: Значение должно быть числом\nПовторите ввод"));
                     } else {
                         tmpO.setFloor(Integer.parseInt(messageText));
-                        MySendMessage("msg", new SendMessage()
+                        MySendMessage(new SendMessage()
                                 .setChatId(chatId)
                                 .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(MyButtonsMap.getButtonsMap("floor")))
                                 .setText(objectMap.get(chatId) + "Выберите общее количество этажей в доме"));
@@ -110,7 +110,7 @@ public class testBot extends TelegramLongPollingBot {
 
                 //-------**********----------
                 else if (messageText.toUpperCase().contains("ПРИВЕТ")) {
-                    MySendMessage("msg", new SendMessage(chatId, "Привет, " + update.getMessage().getChat().getFirstName()
+                    MySendMessage(new SendMessage(chatId, "Привет, " + update.getMessage().getChat().getFirstName()
                             + " "
                             + update.getMessage().getChat().getLastName()));
                 } else if (messageText.equals("/start")) {
@@ -133,23 +133,23 @@ public class testBot extends TelegramLongPollingBot {
                     keyboard.add(row);
                     // Set the keyboard to the markup
                     keyboardMarkup.setKeyboard(keyboard);
-                    MySendMessage("msg", new SendMessage()
+                    MySendMessage(new SendMessage()
                             .setChatId(chatId)
                             .setText("Клавиатура добавлена")
                             .setReplyMarkup(keyboardMarkup));
 
                 } else if (messageText.equals("/добавить_объект")) {
-                    MySendMessage("msg", new SendMessage()
+                    MySendMessage(new SendMessage()
                             .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(MyButtonsMap.getButtonsMap("type")))
                             .setChatId(chatId)
                             .setText("Добавить объект в базу"));
                 } else if (messageText.equals("/скрыть клавиатуру")) {
-                    MySendMessage("msg", new SendMessage()
+                    MySendMessage(new SendMessage()
                             .setChatId(chatId)
                             .setText("Клавиатура скрыта")
                             .setReplyMarkup(new ReplyKeyboardRemove()));
                 } else {
-                    MySendMessage("msg", new SendMessage()
+                    MySendMessage(new SendMessage()
                             .setChatId(update.getMessage().getChatId())
                             .setText("Остальной функционал в разработке =("));
                 }
@@ -157,11 +157,11 @@ public class testBot extends TelegramLongPollingBot {
 
             }
 
-        } else if (update.hasCallbackQuery()) {
+        }.. else if (update.hasCallbackQuery()) {
             chatId = update.getCallbackQuery().getMessage().getChatId();
             String call_data = update.getCallbackQuery().getData();
             message_id = update.getCallbackQuery().getMessage().getMessageId(); //пишем message_id в переменную
-            System.out.println(message_id);
+            System.out.println("DEBUG:MESSAGE_ID: " + message_id);
 
             if (/*MyButtonsMap.getTypeMap().containsValue(call_data)*/call_data.equals("flat") || call_data.equals("house") || call_data.equals("room") || call_data.equals("new_build") || call_data.equals("area") || call_data.equals("garage")
                     || call_data.equals("cottage") || call_data.equals("commerce")) {
@@ -189,7 +189,7 @@ public class testBot extends TelegramLongPollingBot {
                 objectMap.put(chatId, realtTmp);
 
                 //готовим сообщеине для отправки
-                MySendMessage("edit", new EditMessageText()
+                MySendMessage(new EditMessageText()
                         .setText(objectMap.get(chatId) + "Выберите райн")
                         .setChatId(chatId)
                         .setMessageId((int) message_id)
@@ -199,20 +199,20 @@ public class testBot extends TelegramLongPollingBot {
                 objectMap.get(chatId)
                         .setMikroraion(call_data.substring(1));
                 //готовим сообщеине для отправки
-                MySendMessage("edit", new EditMessageText()
+                MySendMessage(new EditMessageText()
                         .setText(objectMap.get(chatId) + "Введите улицу")
                         .setChatId(chatId)
                         .setMessageId((int) message_id));
                 settingsMap.put(chatId, "street_hand");
             } else if (call_data.equals("m_hand")) {
                 settingsMap.put(chatId, "mikroraion_hand");
-                MySendMessage("edit", new EditMessageText()
+                MySendMessage(new EditMessageText()
                         .setText(objectMap.get(chatId) + "Введите район")
                         .setChatId(chatId)
                         .setMessageId((int) message_id));
             } else if (call_data.equals("room_hand")) {
                 settingsMap.put(chatId, "room_hand");
-                MySendMessage("edit", new EditMessageText()
+                MySendMessage(new EditMessageText()
                         .setText(objectMap.get(chatId) + "Введите количество комнат")
                         .setChatId(chatId)
                         .setMessageId((int) message_id));
@@ -220,14 +220,14 @@ public class testBot extends TelegramLongPollingBot {
                 System.out.println("Внутри обработчика количества комнат");
                 objectMap.get(chatId)
                         .setRooms(Integer.parseInt(call_data.substring(1)));
-                MySendMessage("edit", new EditMessageText()
+                MySendMessage(new EditMessageText()
                         .setChatId(chatId)
                         .setMessageId((int) message_id)
                         .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(MyButtonsMap.getButtonsMap("floor")))
                         .setText(objectMap.get(chatId) + "Выберите этаж"));
             } else if (call_data.equals("floor_hand")) {
                 settingsMap.put(chatId, "floor_hand");
-                MySendMessage("edit", new EditMessageText()
+                MySendMessage(new EditMessageText()
                         .setText(objectMap.get(chatId) + "Введите этаж")
                         .setChatId(chatId)
                         .setMessageId((int) message_id));
@@ -235,7 +235,7 @@ public class testBot extends TelegramLongPollingBot {
                 System.out.println("Внутри обработчика этажа");
                 objectMap.get(chatId)
                     .setFloor(Integer.parseInt(call_data.substring(1)));
-                MySendMessage("edit", new EditMessageText()
+                MySendMessage(new EditMessageText()
                         .setChatId(chatId)
                         .setMessageId((int) message_id)
                        // .setReplyMarkup(MyInlineKeyboardCreator.getInlineKeyboardMarkup(MyButtonsMap.getButtonsMap("floor")))
@@ -256,13 +256,13 @@ public class testBot extends TelegramLongPollingBot {
     }
 
     //метод отправки сообщений
-    private void MySendMessage(String type, PartialBotApiMethod message) {
+    private void MySendMessage(PartialBotApiMethod message) {
         try {
-            if (type.equals("msg")) {
+            if (message.getClass().equals(new SendMessage().getClass())) {
                 sendMessage((SendMessage) message);
-            } else if (type.equals("photo")) {
+            } else if (message.getClass().equals(new SendPhoto().getClass())) {
                 sendPhoto((SendPhoto) message);
-            } else if (type.equals("edit")) {
+            } else if (message.getClass().equals(new EditMessageText().getClass())) {
                 editMessageText((EditMessageText) message);
             } else System.out.println("Error in MySendMessage");
         } catch (TelegramApiException e) {
