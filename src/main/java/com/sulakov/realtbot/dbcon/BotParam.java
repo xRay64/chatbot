@@ -10,7 +10,7 @@ import java.sql.Statement;
 /**
  * Created by Антон on 25.06.2017.
  */
-public class GetBotParam {
+public class BotParam {
     public static String getParam(String param){
         Connection connection = null;
         String res = null;

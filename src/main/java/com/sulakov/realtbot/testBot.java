@@ -39,8 +39,6 @@ public class testBot extends TelegramLongPollingBot {
             if (update.getMessage().hasText()) {
                 chatId = update.getMessage().getChatId();
                 messageText = update.getMessage().getText();
-                message_id = update.getMessage().getMessageId();
-                System.out.println(message_id);
 
                 //ручной ввод микрорайона
                 if (settingsMap.containsKey(chatId) && settingsMap.get(chatId).equals("mikroraion_hand")) {
@@ -155,9 +153,9 @@ public class testBot extends TelegramLongPollingBot {
                 }
 
 
-            }
 
-        }.. else if (update.hasCallbackQuery()) {
+            }
+        } else if (update.hasCallbackQuery()) {
             chatId = update.getCallbackQuery().getMessage().getChatId();
             String call_data = update.getCallbackQuery().getData();
             message_id = update.getCallbackQuery().getMessage().getMessageId(); //пишем message_id в переменную

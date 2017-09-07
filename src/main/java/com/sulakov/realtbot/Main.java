@@ -1,12 +1,9 @@
 package com.sulakov.realtbot;
 
-import com.sulakov.realtbot.dbcon.GetBotParam;
+import com.sulakov.realtbot.dbcon.BotParam;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
-
-import java.net.URISyntaxException;
-import java.sql.SQLException;
 
 public class Main {
     static String botName = null;
@@ -14,8 +11,8 @@ public class Main {
 
     public static void main(String[] args) {
         //получаем botNme и botToken из БД и храним их в переменных
-        botName = GetBotParam.getParam("botName");
-        botToken =  GetBotParam.getParam("botToken");
+        botName = BotParam.getParam("botName");
+        botToken =  BotParam.getParam("botToken");
 
         ApiContextInitializer.init();
 

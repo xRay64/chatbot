@@ -1,12 +1,10 @@
 package com.sulakov.realtbot;
 
-import com.sulakov.realtbot.dbcon.GetBotParam;
+import com.sulakov.realtbot.dbcon.BotParam;
 import org.telegram.telegrambots.api.objects.Update;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,7 +25,7 @@ public class Log {
     static {
         String fileName = null;
         try {
-            fileName = GetBotParam.getParam("logFile");
+            fileName = BotParam.getParam("logFile");
             fileWriter = new FileWriter(fileName, true);
         } catch (IOException e) {
             e.printStackTrace();
