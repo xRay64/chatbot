@@ -160,8 +160,7 @@ public class testBot extends TelegramLongPollingBot {
             message_id = update.getCallbackQuery().getMessage().getMessageId(); //пишем message_id в переменную
             System.out.println("DEBUG:MESSAGE_ID: " + message_id);
 
-            if (/*MyButtonsMap.getTypeMap().containsValue(call_data)*/call_data.equals("flat") || call_data.equals("house") || call_data.equals("room") || call_data.equals("new_build") || call_data.equals("area") || call_data.equals("garage")
-                    || call_data.equals("cottage") || call_data.equals("commerce")) {
+            if (MyButtonsMap.getMapValues("type").contains(call_data)) {
                 System.out.println("Внутри обработчика типа объекта");
                 MyRealtObject realtTmp = new MyRealtObject();
                 switch (call_data) {

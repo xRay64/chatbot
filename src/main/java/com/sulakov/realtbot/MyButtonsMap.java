@@ -3,12 +3,12 @@ package com.sulakov.realtbot;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MyButtonsMap {
-    private static HashMap<Integer, MyInlineKeyboardButton> typeMap = new HashMap<Integer, MyInlineKeyboardButton>();
-    private static HashMap<Integer, MyInlineKeyboardButton> mikroraionMap = new HashMap<Integer, MyInlineKeyboardButton>();
-    private static HashMap<Integer, MyInlineKeyboardButton> roomNumbersMap = new HashMap<Integer, MyInlineKeyboardButton>();
-    private static HashMap<Integer, MyInlineKeyboardButton> floorNumbersMap = new HashMap<Integer, MyInlineKeyboardButton>();
-    private static HashMap<Integer, MyInlineKeyboardButton> totalFloorNumbersMap = new HashMap<Integer, MyInlineKeyboardButton>();
+class MyButtonsMap {
+    private static HashMap<Integer, MyInlineKeyboardButton> typeMap = new HashMap<>();
+    private static HashMap<Integer, MyInlineKeyboardButton> mikroraionMap = new HashMap<>();
+    private static HashMap<Integer, MyInlineKeyboardButton> roomNumbersMap = new HashMap<>();
+    private static HashMap<Integer, MyInlineKeyboardButton> floorNumbersMap = new HashMap<>();
+    private static HashMap<Integer, MyInlineKeyboardButton> totalFloorNumbersMap = new HashMap<>();
 
     static {
         //заполним клавиатуру типов обхектов
@@ -73,30 +73,43 @@ public class MyButtonsMap {
 
     }
 
-    public static HashMap<Integer, MyInlineKeyboardButton> getButtonsMap(String param) {
+    static HashMap<Integer, MyInlineKeyboardButton> getButtonsMap(String param) {
         HashMap<Integer, MyInlineKeyboardButton> tmpMap = null;
-        if (param.equals("type")) {
-            tmpMap = typeMap;
-        } else if (param.equals("mikro")) {
-            tmpMap = mikroraionMap;
-        } else if (param.equals("room")) {
-            tmpMap = roomNumbersMap;
-        } else if (param.equals("floor")) {
-            tmpMap = floorNumbersMap;
+        switch (param) {
+            case "type":
+                tmpMap = typeMap;
+                break;
+            case "mikro":
+                tmpMap = mikroraionMap;
+                break;
+            case "room":
+                tmpMap = roomNumbersMap;
+                break;
+            case "floor":
+                tmpMap = floorNumbersMap;
+                break;
         }
         return tmpMap;
     }
 
-    public static ArrayList<String> getMapValues(String param) {
+    static ArrayList<String> getMapValues(String param) {
         ArrayList<String> toReturn = new ArrayList<>();
         HashMap<Integer, MyInlineKeyboardButton> tmpMap = null;
-        if (param.equals("mikro")) {
-            tmpMap = mikroraionMap;
-        } else if (param.equals("room")) {
-            tmpMap = roomNumbersMap;
-        } else if (param.equals("floor")) {
-            tmpMap = floorNumbersMap;
+        switch (param) {
+            case "type":
+                tmpMap = typeMap;
+                break;
+            case "mikro":
+                tmpMap = mikroraionMap;
+                break;
+            case "room":
+                tmpMap = roomNumbersMap;
+                break;
+            case "floor":
+                tmpMap = floorNumbersMap;
+                break;
         }
+        assert tmpMap != null;
         for (MyInlineKeyboardButton s : tmpMap.values()) {
             String callData = s.getCallbackData();
             if (!callData.contains("hand")) {
