@@ -23,15 +23,14 @@ import java.util.regex.Pattern;
  */
 public class testBot extends TelegramLongPollingBot {
 
-    Map<Long, String> settingsMap = new HashMap<Long, String>();
-    Map<Long, MyRealtObject> objectMap = new HashMap<Long, MyRealtObject>();
-    public static final Pattern digPattern = Pattern.compile("\\d+");
+    private Map<Long, String> settingsMap = new HashMap<>();
+    private Map<Long, MyRealtObject> objectMap = new HashMap<>();
+    private static final Pattern digPattern = Pattern.compile("\\d+");
 
     public void onUpdateReceived(Update update) {
         System.out.println("DEBUG:UPDATE_RESIVED\n" + update + "\nDEBUG:END_update");
-        PartialBotApiMethod messageToSend = null; //инициализируем переменную для сообщения которое будем отправлять
         long chatId;
-        String messageText = null;
+        String messageText;
         long message_id;
 
         if (update.hasMessage()) {
@@ -114,7 +113,7 @@ public class testBot extends TelegramLongPollingBot {
                 } else if (messageText.equals("/start")) {
                     //Creating custom keyboard
                     ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
-                    List<KeyboardRow> keyboard = new ArrayList<KeyboardRow>();
+                    List<KeyboardRow> keyboard = new ArrayList<>();
                     KeyboardRow row = new KeyboardRow();
                     //adding first row
                     row.add("/pic");
@@ -165,24 +164,34 @@ public class testBot extends TelegramLongPollingBot {
                     || call_data.equals("cottage") || call_data.equals("commerce")) {
                 System.out.println("Внутри обработчика типа объекта");
                 MyRealtObject realtTmp = new MyRealtObject();
-                if (call_data.equals("flat")) {
-                    realtTmp.setType(1);
-                } else if (call_data.equals("house")) {
-                    realtTmp.setType(2);
-                } else if (call_data.equals("room")) {
-                    realtTmp.setType(3);
-                } else if (call_data.equals("new_build")) {
-                    realtTmp.setType(4);
-                } else if (call_data.equals("area")) {
-                    realtTmp.setType(5);
-                } else if (call_data.equals("garage")) {
-                    realtTmp.setType(6);
-                } else if (call_data.equals("cottage")) {
-                    realtTmp.setType(7);
-                } else if (call_data.equals("commerce")) {
-                    realtTmp.setType(8);
-                } else {
-                    System.out.println("ERROR: realt type wrong!");
+                switch (call_data) {
+                    case "flat":
+                        realtTmp.setType(1);
+                        break;
+                    case "house":
+                        realtTmp.setType(2);
+                        break;
+                    case "room":
+                        realtTmp.setType(3);
+                        break;
+                    case "new_build":
+                        realtTmp.setType(4);
+                        break;
+                    case "area":
+                        realtTmp.setType(5);
+                        break;
+                    case "garage":
+                        realtTmp.setType(6);
+                        break;
+                    case "cottage":
+                        realtTmp.setType(7);
+                        break;
+                    case "commerce":
+                        realtTmp.setType(8);
+                        break;
+                    default:
+                        System.out.println("ERROR: realt type wrong!");
+                        break;
                 }
                 objectMap.put(chatId, realtTmp);
 
@@ -252,15 +261,14 @@ public class testBot extends TelegramLongPollingBot {
     public String getBotToken() {
         return Main.botToken;
     }
-
     //метод отправки сообщений
     private void MySendMessage(PartialBotApiMethod message) {
         try {
-            if (message.getClass().equals(new SendMessage().getClass())) {
+            if (message.getClass().equals(SendMessage.class)) {
                 sendMessage((SendMessage) message);
-            } else if (message.getClass().equals(new SendPhoto().getClass())) {
+            } else if (message.getClass().equals(SendPhoto.class)) {
                 sendPhoto((SendPhoto) message);
-            } else if (message.getClass().equals(new EditMessageText().getClass())) {
+            } else if (message.getClass().equals(EditMessageText.class)) {
                 editMessageText((EditMessageText) message);
             } else System.out.println("Error in MySendMessage");
         } catch (TelegramApiException e) {
